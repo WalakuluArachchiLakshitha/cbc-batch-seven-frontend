@@ -104,7 +104,9 @@ export default function UserData() {
                 {user.firstName ?? "User"}
               </span>
               {user.role && (
-                <span className="text-[11px] text-secondary/70">{user.role}</span>
+                <span className="text-[11px] text-secondary/70">
+                  {user.role}
+                </span>
               )}
             </div>
 
@@ -122,7 +124,9 @@ export default function UserData() {
                   setMenuOpen(true);
                   // focus first item after opening (next tick)
                   setTimeout(() => {
-                    const first = menuRef.current?.querySelector("button[data-menu-item]");
+                    const first = menuRef.current?.querySelector(
+                      "button[data-menu-item]",
+                    );
                     first?.focus();
                   }, 0);
                 }
@@ -149,7 +153,7 @@ export default function UserData() {
               className="absolute right-0 top-12 z-50 w-56 origin-top-right rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-secondary/10 animate-in fade-in zoom-in duration-100"
             >
               <MenuItem
-                onClick={() => (window.location.href = "/account")}
+                onClick={() => (window.location.href = "/settings")}
                 label="Account Settings"
               />
               <MenuItem
@@ -166,11 +170,7 @@ export default function UserData() {
                 </>
               )}
               <div className="my-1 h-px bg-secondary/10" />
-              <MenuItem
-                destructive
-                onClick={handleLogout}
-                label="Logout"
-              />
+              <MenuItem destructive onClick={handleLogout} label="Logout" />
             </div>
           )}
         </div>
@@ -184,21 +184,24 @@ function MenuItem({ label, onClick, destructive = false }) {
     <button
       data-menu-item
       onClick={onClick}
-      className={`w-full rounded-lg px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${destructive
-        ? "text-red-600 hover:bg-red-50"
-        : "text-secondary hover:bg-primary"
-        }`}
+      className={`w-full rounded-lg px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
+        destructive
+          ? "text-red-600 hover:bg-red-50"
+          : "text-secondary hover:bg-primary"
+      }`}
       onKeyDown={(e) => {
         if (e.key === "ArrowDown") {
           e.preventDefault();
-          const next = e.currentTarget.parentElement?.querySelectorAll("[data-menu-item]");
+          const next =
+            e.currentTarget.parentElement?.querySelectorAll("[data-menu-item]");
           if (!next) return;
           const items = Array.from(next);
           const idx = items.indexOf(e.currentTarget);
           items[(idx + 1) % items.length]?.focus();
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
-          const next = e.currentTarget.parentElement?.querySelectorAll("[data-menu-item]");
+          const next =
+            e.currentTarget.parentElement?.querySelectorAll("[data-menu-item]");
           if (!next) return;
           const items = Array.from(next);
           const idx = items.indexOf(e.currentTarget);
