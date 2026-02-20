@@ -193,7 +193,7 @@ export default function PaymentPage() {
 
     // ─── PAYMENT FORM ─────────────────────────────────────────────────────────
     return (
-        <div className="w-full min-h-[calc(100vh-100px)] bg-primary flex flex-col items-center justify-center py-8 px-4">
+        <div className="w-full min-h-[calc(100vh-100px)] bg-primary flex flex-col items-center justify-center py-8 px-4 mt-25">
             <div className="w-full max-w-[480px] flex flex-col gap-4">
 
                 {/* Timer bar */}

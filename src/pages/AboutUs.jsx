@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 
 export default function AboutUs() {
     return (
-        <div className="w-full min-h-screen bg-primary">
+        <div className="w-full min-h-screen bg-primary mt-20">
             <Helmet>
                 <title>About Us - Cosmetic Shop</title>
                 <meta name="description" content="Learn about our mission to provide natural, sustainable, and cruelty-free beauty products." />

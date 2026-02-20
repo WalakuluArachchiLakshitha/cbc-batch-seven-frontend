@@ -108,122 +108,196 @@ export default function AdminProductPage() {
 					</div>
 
 					{/* Table wrapper for responsive scrolling */}
-					<div className="overflow-x-auto">
+					<div className="p-0">
 						{isLoading ? <Loader /> :
-							<table className="w-full min-w-[880px] text-left">
-								<thead className="bg-secondary text-white">
-									<tr>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Image
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Product ID
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Product Name
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Product Price
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Labelled Price
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Stock
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
-											Category
-										</th>
-										<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">
-											Actions
-										</th>
-									</tr>
-								</thead>
-
-								<tbody className="divide-y divide-secondary/10">
-									{products.map((item) => {
-										return (
-											<tr
-												key={item.productID}
-												className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
-											>
-												<td className="px-4 py-3">
-													<img
-														src={item.image?.[0]}
-														alt={item.name}
-														className="h-16 w-16 rounded-lg object-cover ring-1 ring-secondary/15"
-													/>
-												</td>
-												<td className="px-4 py-3 font-mono text-sm text-secondary/80">
-													{item.productID}
-												</td>
-												<td className="px-4 py-3 font-medium text-secondary">
-													{item.name}
-												</td>
-												<td className="px-4 py-3 text-secondary/90">
-													<span className="rounded-md bg-secondary/5 px-2 py-1 text-sm">
-														LKR {item.price}
-													</span>
-												</td>
-												<td className="px-4 py-3 text-secondary/70">
-													<span className="text-sm line-through">
-														LKR {item.labelPrice}
-													</span>
-												</td>
-												<td className="px-4 py-3">
-													{
-														item.stock === 0
-															? <span className="inline-flex items-center gap-1 rounded-full bg-red-100 border border-red-200 px-2.5 py-0.5 text-xs font-bold text-red-700">Out of Stock</span>
-															: item.stock <= 5
-																? <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-200 px-2.5 py-0.5 text-xs font-bold text-amber-700">⚠ {item.stock} left</span>
-																: <span className="inline-flex items-center gap-1 rounded-full bg-green-100 border border-green-200 px-2.5 py-0.5 text-xs font-semibold text-green-700">{item.stock} in stock</span>
-													}
-												</td>
-												<td className="px-4 py-3">
-													<span className="rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">
-														{item.category}
-													</span>
-												</td>
-												<td className="px-4 py-3">
-													<div className="flex items-center justify-center gap-3">
-														<FaRegTrashCan
-															className="cursor-pointer rounded-lg p-2 text-secondary/70 ring-1 ring-secondary/10 hover:bg-accent/10 hover:text-accent transition"
-															size={36}
-															title="Delete"
-															aria-label="Delete product"
-															onClick={() => {
-																setProductToDelete(item.productID);
-																setIsDeleteConfirmVisible(true)
-															}}
-														/>
-														<FaRegEdit
-															className="cursor-pointer rounded-lg p-2 text-secondary/70 ring-1 ring-secondary/10 hover:bg-accent/10 hover:text-accent transition"
-															size={36}
-															title="Edit"
-															aria-label="Edit product"
-															onClick={() => {
-																navigate("/admin/update-product", {
-																	state: item
-																})
-															}}
-														/>
-													</div>
-												</td>
+							<>
+								{/* Desktop Table View */}
+								<div className="hidden md:block overflow-x-auto">
+									<table className="w-full min-w-[880px] text-left">
+										<thead className="bg-secondary text-white">
+											<tr>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Image
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Product ID
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Product Name
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Product Price
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Labelled Price
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Stock
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+													Category
+												</th>
+												<th className="sticky top-0 z-10 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">
+													Actions
+												</th>
 											</tr>
-										);
-									})}
+										</thead>
+
+										<tbody className="divide-y divide-secondary/10">
+											{products.map((item) => {
+												return (
+													<tr
+														key={item.productID}
+														className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
+													>
+														<td className="px-4 py-3">
+															<img
+																src={item.image?.[0]}
+																alt={item.name}
+																className="h-16 w-16 rounded-lg object-cover ring-1 ring-secondary/15"
+															/>
+														</td>
+														<td className="px-4 py-3 font-mono text-sm text-secondary/80">
+															{item.productID}
+														</td>
+														<td className="px-4 py-3 font-medium text-secondary">
+															{item.name}
+														</td>
+														<td className="px-4 py-3 text-secondary/90">
+															<span className="rounded-md bg-secondary/5 px-2 py-1 text-sm">
+																LKR {item.price}
+															</span>
+														</td>
+														<td className="px-4 py-3 text-secondary/70">
+															<span className="text-sm line-through">
+																LKR {item.labelPrice}
+															</span>
+														</td>
+														<td className="px-4 py-3">
+															{
+																item.stock === 0
+																	? <span className="inline-flex items-center gap-1 rounded-full bg-red-100 border border-red-200 px-2.5 py-0.5 text-xs font-bold text-red-700">Out of Stock</span>
+																	: item.stock <= 5
+																		? <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-200 px-2.5 py-0.5 text-xs font-bold text-amber-700">⚠ {item.stock} left</span>
+																		: <span className="inline-flex items-center gap-1 rounded-full bg-green-100 border border-green-200 px-2.5 py-0.5 text-xs font-semibold text-green-700">{item.stock} in stock</span>
+															}
+														</td>
+														<td className="px-4 py-3">
+															<span className="rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-accent">
+																{item.category}
+															</span>
+														</td>
+														<td className="px-4 py-3">
+															<div className="flex items-center justify-center gap-3">
+																<FaRegTrashCan
+																	className="cursor-pointer rounded-lg p-2 text-secondary/70 ring-1 ring-secondary/10 hover:bg-accent/10 hover:text-accent transition"
+																	size={36}
+																	title="Delete"
+																	aria-label="Delete product"
+																	onClick={() => {
+																		setProductToDelete(item.productID);
+																		setIsDeleteConfirmVisible(true)
+																	}}
+																/>
+																<FaRegEdit
+																	className="cursor-pointer rounded-lg p-2 text-secondary/70 ring-1 ring-secondary/10 hover:bg-accent/10 hover:text-accent transition"
+																	size={36}
+																	title="Edit"
+																	aria-label="Edit product"
+																	onClick={() => {
+																		navigate("/admin/update-product", {
+																			state: item
+																		})
+																	}}
+																/>
+															</div>
+														</td>
+													</tr>
+												);
+											})}
+											{products.length === 0 && (
+												<tr>
+													<td
+														className="px-4 py-12 text-center text-secondary/60"
+														colSpan={7}
+													>
+														No products to display.
+													</td>
+												</tr>
+											)}
+										</tbody>
+									</table>
+								</div>
+
+								{/* Mobile Card View */}
+								<div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+									{products.map((item) => (
+										<div
+											key={item.productID}
+											className="bg-white rounded-xl shadow-sm border border-secondary/10 p-4 flex flex-col gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+										>
+											<div className="flex gap-4">
+												<img
+													src={item.image?.[0]}
+													alt={item.name}
+													className="h-20 w-20 rounded-lg object-cover ring-1 ring-secondary/10 shrink-0"
+												/>
+												<div className="flex flex-col gap-1 min-w-0">
+													<div className="flex items-center justify-between">
+														<span className="text-xs font-mono text-secondary/60">{item.productID}</span>
+														<span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent truncate max-w-[80px]">
+															{item.category}
+														</span>
+													</div>
+													<h3 className="font-semibold text-secondary truncate">{item.name}</h3>
+													<div className="flex items-center gap-2">
+														<span className="font-bold text-accent">LKR {item.price}</span>
+														{item.labelPrice > item.price && (
+															<span className="text-xs text-secondary/50 line-through">LKR {item.labelPrice}</span>
+														)}
+													</div>
+												</div>
+											</div>
+
+											<div className="flex items-center justify-between border-t border-secondary/10 pt-3 mt-1">
+												<div>
+													{item.stock === 0
+														? <span className="inline-flex items-center gap-1 rounded-full bg-red-100 border border-red-200 px-2 py-0.5 text-xs font-bold text-red-700">Out of Stock</span>
+														: item.stock <= 5
+															? <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-200 px-2 py-0.5 text-xs font-bold text-amber-700">⚠ {item.stock} left</span>
+															: <span className="inline-flex items-center gap-1 rounded-full bg-green-100 border border-green-200 px-2 py-0.5 text-xs font-semibold text-green-700">{item.stock} in stock</span>
+													}
+												</div>
+												<div className="flex gap-2">
+													<button
+														onClick={() => {
+															navigate("/admin/update-product", { state: item })
+														}}
+														className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+													>
+														<FaRegEdit size={18} />
+													</button>
+													<button
+														onClick={() => {
+															setProductToDelete(item.productID);
+															setIsDeleteConfirmVisible(true)
+														}}
+														className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition"
+													>
+														<FaRegTrashCan size={18} />
+													</button>
+												</div>
+											</div>
+										</div>
+									))}
 									{products.length === 0 && (
-										<tr>
-											<td
-												className="px-4 py-12 text-center text-secondary/60"
-												colSpan={7}
-											>
-												No products to display.
-											</td>
-										</tr>
+										<div className="text-center py-10 col-span-full text-secondary/60">
+											No products found.
+										</div>
 									)}
-								</tbody>
-							</table>}
+								</div>
+							</>
+						}
 					</div>
 				</div>
 			</div>

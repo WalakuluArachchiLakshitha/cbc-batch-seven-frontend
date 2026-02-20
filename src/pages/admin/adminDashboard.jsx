@@ -71,7 +71,7 @@ export default function AdminDashboard() {
                     {statCards.map((card, index) => (
                         <div
                             key={index}
-                            className={`bg-gradient-to-br ${card.bg} rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300`}
+                            className={`bg-gradient-to-br ${card.bg} rounded-2xl p-6 text-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300`}
                         >
                             <div className="flex items-center justify-between mb-4">
                                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
@@ -93,50 +93,84 @@ export default function AdminDashboard() {
                         </span>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full min-w-[700px] text-left">
-                            <thead className="bg-secondary text-white">
-                                <tr>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Order ID</th>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Customer</th>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Email</th>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Total</th>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Status</th>
-                                    <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-secondary/10">
-                                {stats?.recentOrders?.length > 0 ? (
-                                    stats.recentOrders.map((order) => (
-                                        <tr
-                                            key={order.orderID}
-                                            className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
-                                        >
-                                            <td className="px-4 py-3 font-mono text-sm text-secondary/80">{order.orderID}</td>
-                                            <td className="px-4 py-3 font-medium text-secondary">{order.customerName}</td>
-                                            <td className="px-4 py-3 text-secondary/70">{order.email}</td>
-                                            <td className="px-4 py-3 font-medium text-secondary">
-                                                LKR {order.total.toFixed(2)}
-                                            </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
-                                                    {order.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3 text-secondary/70">
-                                                {new Date(order.date).toLocaleDateString()}
+                    <div className="p-0">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="w-full min-w-[700px] text-left">
+                                <thead className="bg-secondary text-white">
+                                    <tr>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Order ID</th>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Customer</th>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Email</th>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Total</th>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Status</th>
+                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-secondary/10">
+                                    {stats?.recentOrders?.length > 0 ? (
+                                        stats.recentOrders.map((order) => (
+                                            <tr
+                                                key={order.orderID}
+                                                className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
+                                            >
+                                                <td className="px-4 py-3 font-mono text-sm text-secondary/80">{order.orderID}</td>
+                                                <td className="px-4 py-3 font-medium text-secondary">{order.customerName}</td>
+                                                <td className="px-4 py-3 text-secondary/70">{order.email}</td>
+                                                <td className="px-4 py-3 font-medium text-secondary">
+                                                    LKR {order.total.toFixed(2)}
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
+                                                        {order.status}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-secondary/70">
+                                                    {new Date(order.date).toLocaleDateString()}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td className="px-4 py-12 text-center text-secondary/60" colSpan={6}>
+                                                No orders yet.
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td className="px-4 py-12 text-center text-secondary/60" colSpan={6}>
-                                            No orders yet.
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Mobile Card View */}
+                        <div className="md:hidden flex flex-col gap-4 p-4">
+                            {stats?.recentOrders?.length > 0 ? (
+                                stats.recentOrders.map((order) => (
+                                    <div
+                                        key={order.orderID}
+                                        className="bg-white p-4 rounded-xl shadow-sm border border-secondary/10 flex flex-col gap-3 hover:shadow-md transition-shadow"
+                                    >
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <span className="text-xs font-mono text-secondary/60 block mb-1">#{order.orderID}</span>
+                                                <h3 className="font-semibold text-secondary">{order.customerName}</h3>
+                                            </div>
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${statusColors[order.status] || "bg-gray-100 text-gray-700"}`}>
+                                                {order.status}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex justify-between items-center text-sm">
+                                            <span className="text-secondary/70">{new Date(order.date).toLocaleDateString()}</span>
+                                            <span className="font-bold text-accent">LKR {order.total.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center py-8 text-secondary/60">
+                                    No orders yet.
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

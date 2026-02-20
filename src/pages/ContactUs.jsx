@@ -23,7 +23,7 @@ export default function ContactUs() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-primary pb-20">
+        <div className="w-full min-h-screen bg-primary pb-20 mt-20">
             <Helmet>
                 <title>Contact Us - Cosmetic Shop</title>
                 <meta name="description" content="Get in touch with us for any questions or support. We're here to help." />
@@ -53,7 +53,7 @@ export default function ContactUs() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-lg">Phone</h3>
-                                        <p className="opacity-80">+1 (555) 123-4567</p>
+                                        <p className="opacity-80">+94 77 123-4567</p>
                                     </div>
                                 </div>
 
@@ -63,7 +63,7 @@ export default function ContactUs() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-lg">Email</h3>
-                                        <p className="opacity-80">hello@cosmeticshop.com</p>
+                                        <p className="opacity-80">contact@cosmeticshop.com</p>
                                     </div>
                                 </div>
 
@@ -79,12 +79,7 @@ export default function ContactUs() {
                             </div>
                         </div>
 
-                        <div className="mt-12 flex gap-4">
-                            {/* Social Icons Placeholder */}
-                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 cursor-pointer transition">📘</div>
-                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 cursor-pointer transition">📷</div>
-                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 cursor-pointer transition">🐦</div>
-                        </div>
+                        
                     </div>
 
                     {/* Contact Form (Right) */}

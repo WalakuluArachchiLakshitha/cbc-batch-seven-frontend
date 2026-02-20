@@ -9,52 +9,58 @@ export default function CartPage() {
     const [cart, setCart] = useState(loadCart())
 
     return (
-        <div className="w-full lg:h-[calc(100vh-100px)] bg-primary flex flex-col pt-[25px] items-center">
-            <div className="w-[400px] lg:w-[600px] flex flex-col gap-4 ">
+        <div className="w-full lg:h-[calc(100vh-100px)] bg-primary flex flex-col pt-[25px] items-center mt-20 pb-20">
+            <div className="w-full max-w-[600px] px-4 flex flex-col gap-4">
                 {cart.map((item, index) => {
                     return (
-                        <div key={index} className="w-full h-[300px] lg:h-[120px] bg-white flex flex-col lg:flex-row relative items-center p-3 lg:p-0">
-                            <button className="absolute  text-red-500 right-[-40px] text-2xl rounded-full aspect-square hover:bg-red-500 hover:text-white p-[5px] font-bold" onClick={
+                        <div key={index} className="w-full bg-white flex flex-col lg:flex-row relative items-center p-4 rounded-xl shadow-sm border border-secondary/10">
+                            {/* Delete Button - Positioned top-right on mobile */}
+                            <button className="absolute top-2 right-2 lg:top-1/2 lg:-right-12 lg:-translate-y-1/2 text-red-500 text-xl lg:text-2xl rounded-full p-2 hover:bg-red-50 transition-colors" onClick={
                                 () => {
                                     addToCart(item, -item.quantity)
                                     setCart(loadCart())
                                 }
                             }><BiTrash /></button>
-                            <img className="h-[100px] lg:h-full aspect-square object-cover" src={item.image} />
-                            <div className="w-full text-center lg:w-[200px] h-[100px] lg:h-full flex flex-col pl-[5px] pt-[10px] ">
-                                <h1 className=" font-semibold text-lg w-full text-wrap">{item.name}</h1>
-                                {/* productID */}
-                                <span className="text-sm text-secondary ">{item.productID}</span>
+
+                            <img className="h-[100px] w-[100px] lg:h-full lg:w-[120px] object-cover rounded-lg" src={item.image} />
+
+                            <div className="w-full text-center lg:text-left lg:w-[200px] flex flex-col gap-1 mt-2 lg:mt-0 lg:pl-4">
+                                <h1 className="font-bold text-secondary text-lg leading-tight">{item.name}</h1>
+                                <span className="text-xs text-secondary/60">PID: {item.productID}</span>
                             </div>
-                            <div className="w-[100px] h-full flex flex-row lg:flex-col justify-center items-center ">
-                                <CiCircleChevUp className="text-3xl" onClick={
+
+                            <div className="w-full lg:w-auto flex flex-row lg:flex-col justify-center items-center gap-3 my-3 lg:my-0 lg:ml-auto">
+                                <CiCircleChevUp className="text-3xl text-secondary hover:text-accent cursor-pointer transition-colors" onClick={
                                     () => {
                                         addToCart(item, 1)
                                         setCart(loadCart())
                                     }
                                 } />
-                                <span className="font-semibold text-4xl">{item.quantity}</span>
-                                <CiCircleChevDown className="text-3xl" onClick={() => {
+                                <span className="font-bold text-xl text-secondary">{item.quantity}</span>
+                                <CiCircleChevDown className="text-3xl text-secondary hover:text-accent cursor-pointer transition-colors" onClick={() => {
                                     addToCart(item, -1)
                                     setCart(loadCart())
                                 }} />
                             </div>
-                            <div className="w-full lg:w-[180px] lg:h-full items-center justify-center  flex flex-row lg:flex-col">
+
+                            <div className="w-full lg:w-[150px] flex flex-col items-center lg:items-end justify-center">
                                 {
                                     item.labelPrice > item.price &&
-                                    <span className="text-secondary lg:w-full   text-center  lg:text-right line-through text-lg pr-[10px] lg:mt-[20px]">LKR {item.labelPrice.toFixed(2)}</span>
+                                    <span className="text-secondary/50 line-through text-sm">LKR {item.labelPrice.toFixed(2)}</span>
                                 }
-                                <span className="font-semibold text-accent  lg:w-full text-center  lg:text-right text-2xl pr-[10px] lg:mt-[5px]">LKR {item.price.toFixed(2)}</span>
+                                <span className="font-bold text-accent text-xl">LKR {(item.price * item.quantity).toFixed(2)}</span>
                             </div>
                         </div>
                     );
                 })}
-                <div className="w-full lg:w-full h-[120px] bg-white flex flex-col-reverse  lg:flex-row justify-end items-center relative">
-                    <Link state={cart} to="/checkout" className="lg:absolute left-0 bg-accent text-white px-6 py-3  lg:ml-[20px] hover:bg-accent/80">Proceed to Checkout</Link>
-                    <div className="h-[50px]">
-                        <span className="font-semibold text-accent lg:w-full text-center   lg:text-right text-2xl p-0 lg:pr-[10px] mt-[5px]">Total: LKR {getTotal().toFixed(2)}</span>
+                {cart.length > 0 && (
+                    <div className="w-full bg-white p-4 rounded-xl shadow-sm border border-secondary/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <span className="font-bold text-secondary text-xl">Total: <span className="text-accent">LKR {getTotal().toFixed(2)}</span></span>
+                        <Link state={cart} to="/checkout" className="w-full md:w-auto bg-accent text-white px-8 py-3 rounded-xl font-bold hover:bg-accent/80 transition-all text-center">
+                            Proceed to Checkout
+                        </Link>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

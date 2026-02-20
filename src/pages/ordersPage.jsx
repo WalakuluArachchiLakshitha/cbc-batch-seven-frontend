@@ -34,7 +34,7 @@ function StatusBadge({ status }) {
 function OrderRow({ order, onExpand }) {
     return (
         <div
-            className="w-full bg-white rounded-2xl border border-secondary/10 shadow-sm hover:shadow-md hover:border-accent/30 transition-all cursor-pointer"
+            className="w-full bg-white rounded-2xl border border-secondary/10 shadow-sm hover:shadow-md hover:border-accent/30 transition-all cursor-pointer mt-"
             onClick={() => onExpand(order)}
         >
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4">
@@ -198,7 +198,7 @@ export default function OrdersPage() {
     }, [navigate]);
 
     return (
-        <div className="w-full min-h-[calc(100vh-100px)] bg-primary py-8 px-4">
+        <div className="w-full min-h-[calc(100vh-100px)] bg-primary py-8 px-4 mt-20">
             <OrderDetailModal order={expandedOrder} onClose={() => setExpandedOrder(null)} />
 
             <div className="max-w-3xl mx-auto">

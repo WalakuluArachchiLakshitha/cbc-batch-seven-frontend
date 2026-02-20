@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Loader } from "./loader";
+import { FiUser, FiPackage, FiLogOut, FiShield, FiLogIn, FiSettings } from "react-icons/fi";
 
 export default function UserDataMobile() {
     const [user, setUser] = useState(null);
@@ -28,68 +28,118 @@ export default function UserDataMobile() {
         }
     }, []);
 
+    if (loading) {
+        return (
+            <div className="flex justify-center p-6">
+                <div className="w-8 h-8 border-4 border-accent border-b-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="flex flex-col gap-3 px-4">
+                <a
+                    href="/login"
+                    className="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white rounded-xl font-bold shadow-lg shadow-accent/20 active:scale-95 transition-all"
+                >
+                    <FiLogIn /> Login
+                </a>
+            </div>
+        );
+    }
+
     return (
-        <div className="flex justify-center items-center">
-            {
-                isLogoutConfirmOpen && (
-                    <div className="fixed z-[120] w-full h-screen top-0 left-0 bg-black/30">
-                        <div className="w-[300px] h-[150px] bg-primary rounded-lg p-4 flex flex-col justify-between items-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                            <span className="text-lg">Are you sure you want to logout?</span>
-                            <div className="w-full flex justify-around">
-                                <button className="bg-accent text-white px-4 py-2 rounded hover:bg-secondary transition" onClick={() => {
+        <div className="flex flex-col gap-4 px-4">
+            {/* User Profile Card */}
+            <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-4 border border-white/40 shadow-sm">
+                <div className="flex items-center gap-4 border-b border-secondary/5 pb-4 mb-2">
+                    <img
+                        src={user.image || "https://ui-avatars.com/api/?name=" + user.firstName}
+                        alt="User"
+                        className="w-14 h-14 rounded-full border-2 border-accent object-cover shadow-md"
+                    />
+                    <div className="flex flex-col">
+                        <span className="text-lg font-bold text-secondary">{user.firstName} {user.lastName}</span>
+                        <span className="text-sm text-secondary/60 line-clamp-1">{user.email}</span>
+                    </div>
+                </div>
+
+                {/* Actions List */}
+                <div className="flex flex-col gap-1">
+                    <button
+                        onClick={() => window.location.href = "/account"}
+                        className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-white/60 transition-colors text-secondary font-medium text-left group"
+                    >
+                        <div className="p-2 bg-accent/10 rounded-lg text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+                            <FiSettings size={18} />
+                        </div>
+                        Account Settings
+                    </button>
+
+                    <button
+                        onClick={() => window.location.href = "/orders"}
+                        className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-white/60 transition-colors text-secondary font-medium text-left group"
+                    >
+                        <div className="p-2 bg-blue-500/10 rounded-lg text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                            <FiPackage size={18} />
+                        </div>
+                        My Orders
+                    </button>
+
+                    {user.role === "admin" && (
+                        <button
+                            onClick={() => window.location.href = "/admin"}
+                            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-white/60 transition-colors text-secondary font-medium text-left group"
+                        >
+                            <div className="p-2 bg-purple-500/10 rounded-lg text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                <FiShield size={18} />
+                            </div>
+                            Admin Panel
+                        </button>
+                    )}
+
+                    <div className="h-px bg-secondary/5 my-1" />
+
+                    <button
+                        onClick={() => setIsLogoutConfirmOpen(true)}
+                        className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-red-50 transition-colors text-red-600 font-medium text-left group"
+                    >
+                        <div className="p-2 bg-red-100 rounded-lg group-hover:bg-red-600 group-hover:text-white transition-colors">
+                            <FiLogOut size={18} />
+                        </div>
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            {/* Logout Confirmation Modal */}
+            {isLogoutConfirmOpen && (
+                <div className="fixed  inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+                    <div className="flex-col flex w-full max-w-sm bg-[#fef3e2] rounded-2xl p-6 shadow-2xl scale-in-95 animate-in duration-200 border border-white/20">
+                        <h3 className="text-xl font-bold text-secondary mb-2 text-center">Log Out?</h3>
+                        <p className="text-secondary/60 text-center mb-6">Are you sure you want to sign out of your account?</p>
+
+                        <div className="flex gap-3">
+                            <button
+                                className="flex-1 px-4 py-3 rounded-xl font-semibold bg-gray-200 text-secondary hover:bg-gray-300 transition-colors"
+                                onClick={() => setIsLogoutConfirmOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="flex-1 px-4 py-3 rounded-xl font-semibold bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/20 transition-colors"
+                                onClick={() => {
                                     localStorage.removeItem("token");
                                     window.location.href = "/login";
                                 }}
-                                >Yes</button>
-                                <button className="bg-accent text-white px-4 py-2 rounded hover:bg-secondary transition" onClick={() => {
-                                    setIsLogoutConfirmOpen(false);
-                                }}
-                                >No</button>
-                            </div>
-                            <div className="w-full flex justify-center">
-                                <button className="bg-accent text-white px-4 py-2 rounded hover:bg-secondary transition" onClick={() => {
-                                    setIsLogoutConfirmOpen(false);
-                                }}>Cancel</button>
-                            </div>
+                            >
+                                Yes, Logout
+                            </button>
                         </div>
-
                     </div>
-                )
-            }
-            {
-                loading && <div className="w-[30px] h-[30px] border-[3px] border-white border-b-transparent rounded-full animate-spin"></div>
-            }
-            {user && <div className="h-full w-full flex justify-center items-center">
-                <img src={user.image} className="w-[40px] h-[40px] rounded-full border-[2px] border-primary" />
-                <span className="ml-2">{user.firstName}</span>
-                <select onChange={
-                    (e) => {
-                        console.log(e.target.value);
-                        if (e.target.value == "logout") {
-                            setIsLogoutConfirmOpen(true);
-                        }
-                        if (e.target.value == "admin") {
-                            window.location.href = "/admin";
-                        }
-                        if (e.target.value == "settings") {
-                            window.location.href = "/account";
-                        }
-                        if (e.target.value == "orders") {
-                            window.location.href = "/orders";
-                        }
-                    }
-                } className="ml-2 bg-accent max-w-[20px] text-white p-1 rounded">
-                    <option></option>
-                    <option value="settings">Account Settings</option>
-                    <option value="orders">Orders</option>
-                    {user.role === "admin" && <option value="admin">🛡️ Admin Panel</option>}
-                    <option value="logout">Logout</option>
-                </select>
-            </div>}
-
-            {
-                (!loading && user == null) && <a href="/login" className="bg-accent text-white px-4 py-2 rounded hover:bg-secondary transition">Login</a>
-            }
+                </div>
+            )}
         </div>
-    )
+    );
 }

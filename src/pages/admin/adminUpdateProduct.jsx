@@ -176,7 +176,7 @@ export default function UpdateProductPage() {
                 placeholder="Paste image URLs here (one per line or comma separated)"
               />
 
-              
+
             </label>
             {/* Price */}
             <label className="flex flex-col gap-1.5">
@@ -220,9 +220,12 @@ export default function UpdateProductPage() {
                 }}
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               >
-                <option value="cream">Cream</option>
-                <option value="lotion">Lotion</option>
-                <option value="serum">Serum</option>
+                <option value="haircare">Haircare</option>
+                <option value="skincare">Skincare</option>
+                <option value="watches">Watches</option>
+                <option value="jewellery">Jewellery</option>
+                <option value="perfumes">Perfumes</option>
+                <option value="accessories">Accessories</option>
               </select>
             </label>
 

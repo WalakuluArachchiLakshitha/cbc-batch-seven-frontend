@@ -161,7 +161,7 @@ export default function UserData() {
                   <div className="my-1 h-px bg-secondary/10" />
                   <MenuItem
                     onClick={() => (window.location.href = "/admin")}
-                    label="🛡️ View Admin Panel"
+                    label=" View Admin Panel"
                   />
                 </>
               )}
@@ -185,8 +185,8 @@ function MenuItem({ label, onClick, destructive = false }) {
       data-menu-item
       onClick={onClick}
       className={`w-full rounded-lg px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${destructive
-          ? "text-red-600 hover:bg-red-50"
-          : "text-secondary hover:bg-primary"
+        ? "text-red-600 hover:bg-red-50"
+        : "text-secondary hover:bg-primary"
         }`}
       onKeyDown={(e) => {
         if (e.key === "ArrowDown") {

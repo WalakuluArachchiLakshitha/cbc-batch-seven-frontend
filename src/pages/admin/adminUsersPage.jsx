@@ -54,8 +54,8 @@ function UserBlockConfirm({ user, close, refresh }) {
                     <button
                         onClick={handleBlock}
                         className={`flex-1 py-2 rounded-lg text-white transition ${user.isBlock
-                                ? "bg-green-600 hover:bg-green-700"
-                                : "bg-red-600 hover:bg-red-700"
+                            ? "bg-green-600 hover:bg-green-700"
+                            : "bg-red-600 hover:bg-red-700"
                             }`}
                     >
                         {user.isBlock ? "Unblock" : "Block"}
@@ -183,125 +183,211 @@ export default function AdminUsersPage() {
                     </div>
 
                     {/* Table */}
-                    <div className="overflow-x-auto">
+                    <div className="p-0">
                         {isLoading ? (
                             <Loader />
                         ) : (
-                            <table className="w-full min-w-[900px] text-left">
-                                <thead className="bg-secondary text-white">
-                                    <tr>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Image</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Name</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Email</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Role</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Email Verified</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Status</th>
-                                        <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-secondary/10">
+                            <>
+                                {/* Desktop Table */}
+                                <div className="hidden md:block overflow-x-auto">
+                                    <table className="w-full min-w-[900px] text-left">
+                                        <thead className="bg-secondary text-white">
+                                            <tr>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Image</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Name</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Email</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Role</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Email Verified</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Status</th>
+                                                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-secondary/10">
+                                            {users.map((user) => (
+                                                <tr
+                                                    key={user._id || user.email}
+                                                    className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
+                                                >
+                                                    {/* Profile Image */}
+                                                    <td className="px-4 py-3">
+                                                        <img
+                                                            src={user.image || "/user.png"}
+                                                            alt={user.firstName}
+                                                            referrerPolicy="no-referrer"
+                                                            className={`w-10 h-10 rounded-full object-cover border-2 ${user.isBlock
+                                                                ? "border-red-400"
+                                                                : "border-green-400"
+                                                                }`}
+                                                        />
+                                                    </td>
+                                                    {/* Name */}
+                                                    <td className="px-4 py-3 font-medium text-secondary">
+                                                        {user.firstName} {user.lastName}
+                                                    </td>
+                                                    {/* Email */}
+                                                    <td className="px-4 py-3 text-secondary/70">
+                                                        <span className="flex items-center gap-1">
+                                                            {user.email}
+                                                            {user.isEmailVerified && (
+                                                                <MdCheckCircle className="text-blue-500 text-sm" />
+                                                            )}
+                                                        </span>
+                                                    </td>
+                                                    {/* Role */}
+                                                    <td className="px-4 py-3 text-center">
+                                                        <span
+                                                            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${user.role === "admin"
+                                                                ? "bg-purple-100 text-purple-700"
+                                                                : "bg-blue-100 text-blue-700"
+                                                                }`}
+                                                        >
+                                                            {user.role}
+                                                        </span>
+                                                    </td>
+                                                    {/* Email Verified */}
+                                                    <td className="px-4 py-3 text-center">
+                                                        <span
+                                                            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${user.isEmailVerified
+                                                                ? "bg-green-100 text-green-700"
+                                                                : "bg-yellow-100 text-yellow-700"
+                                                                }`}
+                                                        >
+                                                            {user.isEmailVerified ? "Verified" : "Not Verified"}
+                                                        </span>
+                                                    </td>
+                                                    {/* Status */}
+                                                    <td className="px-4 py-3 text-center">
+                                                        <span
+                                                            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${user.isBlock
+                                                                ? "bg-red-100 text-red-700"
+                                                                : "bg-green-100 text-green-700"
+                                                                }`}
+                                                        >
+                                                            {user.isBlock ? "Blocked" : "Active"}
+                                                        </span>
+                                                    </td>
+                                                    {/* Actions */}
+                                                    <td className="px-4 py-3">
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setUserToBlock(user);
+                                                                    setIsBlockConfirmVisible(true);
+                                                                }}
+                                                                className={`px-3 py-1.5 rounded-full text-xs font-semibold text-white cursor-pointer transition ${user.isBlock
+                                                                    ? "bg-green-600 hover:bg-green-700"
+                                                                    : "bg-accent hover:bg-accent/80"
+                                                                    }`}
+                                                                title={user.isBlock ? "Unblock user" : "Block user"}
+                                                            >
+                                                                {user.isBlock ? "Unblock" : "Block"}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => {
+                                                                    setUserToDelete(user);
+                                                                    setIsDeleteConfirmVisible(true);
+                                                                }}
+                                                                className="w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center cursor-pointer transition"
+                                                                title="Delete user"
+                                                            >
+                                                                <FaRegTrashCan className="text-sm" />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {users.length === 0 && (
+                                                <tr>
+                                                    <td className="px-4 py-12 text-center text-secondary/60" colSpan={7}>
+                                                        No users to display.
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Mobile Card Grid */}
+                                <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
                                     {users.map((user) => (
-                                        <tr
+                                        <div
                                             key={user._id || user.email}
-                                            className="odd:bg-white even:bg-primary hover:bg-accent/5 transition-colors"
+                                            className="bg-white rounded-xl shadow-sm border border-secondary/10 p-4 flex flex-col gap-4 hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
                                         >
-                                            {/* Profile Image */}
-                                            <td className="px-4 py-3">
-                                                <img
-                                                    src={user.image || "/user.png"}
-                                                    alt={user.firstName}
-                                                    referrerPolicy="no-referrer"
-                                                    className={`w-10 h-10 rounded-full object-cover border-2 ${user.isBlock
-                                                            ? "border-red-400"
-                                                            : "border-green-400"
-                                                        }`}
-                                                />
-                                            </td>
-                                            {/* Name */}
-                                            <td className="px-4 py-3 font-medium text-secondary">
-                                                {user.firstName} {user.lastName}
-                                            </td>
-                                            {/* Email */}
-                                            <td className="px-4 py-3 text-secondary/70">
-                                                <span className="flex items-center gap-1">
-                                                    {user.email}
-                                                    {user.isEmailVerified && (
-                                                        <MdCheckCircle className="text-blue-500 text-sm" />
-                                                    )}
-                                                </span>
-                                            </td>
-                                            {/* Role */}
-                                            <td className="px-4 py-3 text-center">
-                                                <span
-                                                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${user.role === "admin"
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex gap-3">
+                                                    <div className="relative">
+                                                        <img
+                                                            src={user.image || "/user.png"}
+                                                            alt={user.firstName}
+                                                            referrerPolicy="no-referrer"
+                                                            className={`w-12 h-12 rounded-full object-cover border-2 ${user.isBlock
+                                                                ? "border-red-400"
+                                                                : "border-green-400"
+                                                                }`}
+                                                        />
+                                                        {user.isEmailVerified && (
+                                                            <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+                                                                <MdCheckCircle className="text-blue-500 text-sm" />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="font-semibold text-secondary">{user.firstName} {user.lastName}</h3>
+                                                        <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider ${user.role === "admin"
                                                             ? "bg-purple-100 text-purple-700"
                                                             : "bg-blue-100 text-blue-700"
-                                                        }`}
-                                                >
-                                                    {user.role}
-                                                </span>
-                                            </td>
-                                            {/* Email Verified */}
-                                            <td className="px-4 py-3 text-center">
+                                                            }`}>
+                                                            {user.role}
+                                                        </span>
+                                                    </div>
+                                                </div>
                                                 <span
-                                                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${user.isEmailVerified
-                                                            ? "bg-green-100 text-green-700"
-                                                            : "bg-yellow-100 text-yellow-700"
-                                                        }`}
-                                                >
-                                                    {user.isEmailVerified ? "Verified" : "Not Verified"}
-                                                </span>
-                                            </td>
-                                            {/* Status */}
-                                            <td className="px-4 py-3 text-center">
-                                                <span
-                                                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${user.isBlock
-                                                            ? "bg-red-100 text-red-700"
-                                                            : "bg-green-100 text-green-700"
+                                                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${user.isBlock
+                                                        ? "bg-red-100 text-red-700"
+                                                        : "bg-green-100 text-green-700"
                                                         }`}
                                                 >
                                                     {user.isBlock ? "Blocked" : "Active"}
                                                 </span>
-                                            </td>
-                                            {/* Actions */}
-                                            <td className="px-4 py-3">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <button
-                                                        onClick={() => {
-                                                            setUserToBlock(user);
-                                                            setIsBlockConfirmVisible(true);
-                                                        }}
-                                                        className={`px-3 py-1.5 rounded-full text-xs font-semibold text-white cursor-pointer transition ${user.isBlock
-                                                                ? "bg-green-600 hover:bg-green-700"
-                                                                : "bg-accent hover:bg-accent/80"
-                                                            }`}
-                                                        title={user.isBlock ? "Unblock user" : "Block user"}
-                                                    >
-                                                        {user.isBlock ? "Unblock" : "Block"}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => {
-                                                            setUserToDelete(user);
-                                                            setIsDeleteConfirmVisible(true);
-                                                        }}
-                                                        className="w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center cursor-pointer transition"
-                                                        title="Delete user"
-                                                    >
-                                                        <FaRegTrashCan className="text-sm" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+
+                                            <div className="text-sm text-secondary/70 bg-secondary/5 p-2 rounded-lg break-all">
+                                                {user.email}
+                                            </div>
+
+                                            <div className="flex gap-2 pt-2 border-t border-secondary/10">
+                                                <button
+                                                    onClick={() => {
+                                                        setUserToBlock(user);
+                                                        setIsBlockConfirmVisible(true);
+                                                    }}
+                                                    className={`flex-1 py-2 rounded-lg text-xs font-semibold text-white transition ${user.isBlock
+                                                        ? "bg-green-600 hover:bg-green-700"
+                                                        : "bg-accent hover:bg-accent/80"
+                                                        }`}
+                                                >
+                                                    {user.isBlock ? "Unblock" : "Block"}
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setUserToDelete(user);
+                                                        setIsDeleteConfirmVisible(true);
+                                                    }}
+                                                    className="w-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center transition"
+                                                >
+                                                    <FaRegTrashCan />
+                                                </button>
+                                            </div>
+                                        </div>
                                     ))}
                                     {users.length === 0 && (
-                                        <tr>
-                                            <td className="px-4 py-12 text-center text-secondary/60" colSpan={7}>
-                                                No users to display.
-                                            </td>
-                                        </tr>
+                                        <div className="text-center py-10 col-span-full text-secondary/60">
+                                            No users found.
+                                        </div>
                                     )}
-                                </tbody>
-                            </table>
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>
