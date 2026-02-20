@@ -43,7 +43,7 @@ export default function AdminPage() {
 			localStorage.removeItem("token");
 			window.location.href = "/login";
 		});
-	}, []);
+	}, [navigate]);
 
 	// Close sidebar on route change (mobile)
 	useEffect(() => {

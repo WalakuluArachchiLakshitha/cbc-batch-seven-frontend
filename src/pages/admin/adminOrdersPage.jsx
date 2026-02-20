@@ -34,7 +34,7 @@ export default function AdminOrdersPage() {
 					setIsLoading(false);
 				});
 		}
-	}, [isLoading]);
+	}, [isLoading, navigate]);
 
 
 

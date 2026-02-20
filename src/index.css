@@ -1,79 +1,65 @@
 @import "tailwindcss";
 
 @layer base {
-	:root {
-		--color-accent: #fa812f;
-		--color-primary: #fef3e2;
-		--color-secondary: #393e46;
-	}
+  :root {
+    --color-accent: #fa812f;
+    --color-primary: #fef3e2;
+    --color-secondary: #393e46;
+  }
 
-	html {
-		scroll-behavior: smooth;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-	body {
-		@apply bg-primary text-secondary font-sans;
-	}
+  body {
+    @apply bg-[#fef3e2] text-[#393e46] font-sans;
+  }
 
-	::selection {
-		@apply bg-accent/30 text-secondary;
-	}
+  ::selection {
+    @apply bg-[#fa812f]/30 text-[#393e46];
+  }
 
-	/* Custom Scrollbar */
-	::-webkit-scrollbar {
-		width: 8px;
-	}
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
-	::-webkit-scrollbar-track {
-		@apply bg-primary;
-	}
+  ::-webkit-scrollbar-track {
+    @apply bg-[#fef3e2];
+  }
 
-	::-webkit-scrollbar-thumb {
-		@apply bg-accent/50 rounded-full hover:bg-accent transition-colors;
-	}
-}
-
-@layer utilities {
-	.glass {
-		@apply bg-white/10 backdrop-blur-md border-b border-white/20 shadow-sm;
-	}
-
-	.glass-card {
-		@apply bg-white/60 backdrop-blur-sm border border-white/40 shadow-xl;
-	}
-
-	.text-gradient {
-		@apply bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent;
-	}
-
-	.hover-lift {
-		@apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
-	}
-
-	.btn-primary {
-		@apply bg-accent text-white font-semibold py-2 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:bg-accent/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
-	}
-
-	.input-field {
-		@apply w-full px-4 py-3 rounded-xl border border-secondary/10 bg-white/50 placeholder:text-secondary/40 outline-none transition-all duration-300 focus:border-accent focus:ring-4 focus:ring-accent/10 focus:bg-white;
-	}
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#fa812f]/50 rounded-full hover:bg-[#fa812f] transition-colors;
+  }
 }
 
 /* Animations */
 @keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-
-	50% {
-		transform: translateY(-10px);
-	}
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .animate-float {
-	animation: float 6s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for Mobile Sidebar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  @apply bg-primary;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  @apply bg-accent/70 rounded-full hover:bg-accent transition-colors;
 }

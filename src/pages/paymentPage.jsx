@@ -88,7 +88,7 @@ export default function PaymentPage() {
             );
             clearInterval(intervalRef.current);
             setStep("success");
-        } catch (err) {
+        } catch {
             setStep("failed");
         } finally {
             setPaying(false);

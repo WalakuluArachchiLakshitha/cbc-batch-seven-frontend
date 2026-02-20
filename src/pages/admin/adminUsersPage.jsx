@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Loader } from "../../components/loader";
@@ -127,7 +127,7 @@ export default function AdminUsersPage() {
 
     const navigate = useNavigate();
 
-    function loadUsers() {
+    const loadUsers = useCallback(() => {
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/login");
@@ -146,11 +146,11 @@ export default function AdminUsersPage() {
                 toast.error("Failed to load users");
                 setIsLoading(false);
             });
-    }
+    }, [navigate]);
 
     useEffect(() => {
         loadUsers();
-    }, []);
+    }, [loadUsers]);
 
     return (
         <div className="w-full min-h-full">

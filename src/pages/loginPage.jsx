@@ -43,7 +43,7 @@ export default function LoginPage() {
       } else {
         navigate("/");
       }
-    } catch (e) {
+    } catch {
       toast.error("Login failed. Please check your credentials.");
     }
   }
