@@ -8,6 +8,7 @@ import RegisterPage from "./pages/registerPage";
 import { HelmetProvider } from "react-helmet-async";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ForgotPasswordPage from "./pages/forget-password";
+import UserSettings from "./pages/settingsPage";
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -21,6 +22,7 @@ function AppContent() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminPage />} />
+        <Route path="/settings" element={<UserSettings />} />
       </Routes>
     </div>
   );
