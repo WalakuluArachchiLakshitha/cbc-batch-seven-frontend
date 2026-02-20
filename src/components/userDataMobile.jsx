@@ -80,7 +80,7 @@ export default function UserDataMobile() {
         {/* Actions */}
         <div className="flex flex-col gap-2 text-sm">
           <button
-            onClick={() => (window.location.href = "/account")}
+            onClick={() => (window.location.href = "/settings")}
             className="flex items-center gap-2 py-2 hover:text-accent transition"
           >
             <FiSettings /> Account Settings
