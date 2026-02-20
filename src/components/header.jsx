@@ -130,8 +130,9 @@ export default function Header() {
         }`}
         onClick={() => setIsSidebarOpen(false)}
       >
+        {/* Sidebar Panel */}
         <div
-          className={`absolute top-0 left-0 w-[280px] h-dvh bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
+          className={`absolute top-0 left-0 w-[280px] h-screen bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}
@@ -148,7 +149,7 @@ export default function Header() {
           </div>
 
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto overscroll-contain px-2 py-4 space-y-2">
+          <div className="flex-1 overflow-y-scroll px-2 py-4 space-y-2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -161,7 +162,8 @@ export default function Header() {
               </Link>
             ))}
 
-            <div className="pt-4 border-t">
+            {/* User Section */}
+            <div className="pt-4 border-t mt-4">
               <UserDataMobile />
             </div>
           </div>
