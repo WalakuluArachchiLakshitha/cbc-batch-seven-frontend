@@ -97,7 +97,7 @@ export default function Header() {
 			>
 				{/* Mobile Sidebar */}
 				<div
-					className={`absolute relative top-0 left-0 w-[280px] h-full bg-[#fef3e2] shadow-2xl transition-transform duration-300 flex flex-col z-[110] ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"
+					className={`absolute top-0 left-0 w-[280px] h-full bg-[#fef3e2] shadow-2xl transition-transform duration-300 flex flex-col z-[110] ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"
 						}`}
 					onClick={e => e.stopPropagation()}
 				>

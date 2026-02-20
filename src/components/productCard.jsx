@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 export default function ProductCard({ product }) {
   const isOutOfStock = product.stock === 0;
 
-  const handleAddToCart = (e) => {
+  const _handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product, 1);

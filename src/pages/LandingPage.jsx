@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ProductCard from "../components/productCard";
@@ -13,14 +13,13 @@ export default function LandingPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
     const [showReviewModal, setShowReviewModal] = useState(false);
-    const scrollRef = useRef(null);
 
     useEffect(() => {
         // Fetch featured products (first 6 products)
         axios
             .get(import.meta.env.VITE_API_URL + "/api/products")
-            .then((response) => {
-                setFeaturedProducts(response.data.slice(0, 6));
+            .then((res) => {
+                setFeaturedProducts(res.data.slice(0, 6));
                 setIsLoading(false);
             })
             .catch((error) => {
@@ -47,7 +46,7 @@ export default function LandingPage() {
     const handleNewsletterSubmit = (e) => {
         e.preventDefault();
         axios.post(import.meta.env.VITE_API_URL + "/api/newsletter", { email })
-            .then((response) => {
+            .then(() => {
                 toast.success("Thank you for subscribing!");
                 setEmail("");
             })

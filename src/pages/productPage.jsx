@@ -66,7 +66,7 @@ export function ProductPage() {
 
             {/* ✅ Mobile Dropdown */}
          
-            <div className="block md:hidden flex justify-center">
+            <div className="md:hidden flex justify-center">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}

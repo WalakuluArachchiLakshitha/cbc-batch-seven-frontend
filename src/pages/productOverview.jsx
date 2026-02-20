@@ -25,7 +25,7 @@ export default function ProductOverview() {
         toast.error("Failed to fetch product details");
         setStatus("error");
       });
-  }, []);
+  }, [params.id]);
 
   // Auto-slide reviews every 4 seconds
   useEffect(() => {

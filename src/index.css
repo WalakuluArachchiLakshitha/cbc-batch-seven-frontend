@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
-@theme {
-	--color-accent: #fa812f;
-	--color-primary: #fef3e2;
-	--color-secondary: #393e46;
-}
-
 @layer base {
+	:root {
+		--color-accent: #fa812f;
+		--color-primary: #fef3e2;
+		--color-secondary: #393e46;
+	}
+
 	html {
 		scroll-behavior: smooth;
 		-webkit-font-smoothing: antialiased;
