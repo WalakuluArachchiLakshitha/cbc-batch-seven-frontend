@@ -14,171 +14,166 @@ import UserData from "./userData";
 import UserDataMobile from "./userDataMobile";
 
 export default function Header() {
-  const [isSideBarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  /* ================= Scroll Effect ================= */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close sidebar on route change
+  /* ============ Close Sidebar On Route Change ============ */
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location]);
 
+  /* ============ Prevent Background Scroll When Sidebar Open ============ */
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isSidebarOpen]);
+
+  const navItems = [
+    { name: "Home", path: "/", icon: <FiHome /> },
+    { name: "Products", path: "/products", icon: <FiShoppingBag /> },
+    { name: "About", path: "/about", icon: <FiInfo /> },
+    { name: "Contact", path: "/contact", icon: <FiPhone /> },
+    { name: "Cart", path: "/cart", icon: <FiShoppingCart /> },
+    { name: "My Orders", path: "/orders", icon: <FiPackage /> },
+  ];
+
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "h-[80px] bg-black/30 backdrop-blur-md border-b border-white/10"
-          : "h-[100px] bg-accent shadow-none"
-      } text-white px-6 lg:px-12 shadow-lg `}
-    >
-      <div className="w-full h-full flex items-center justify-between max-w-7xl mx-auto relative">
-        {/* Logo Area */}
-        <div className="flex items-center gap-4">
-          <button
-            className="lg:hidden text-2xl hover:text-primary transition-colors hover:scale-110 active:scale-95 duration-200"
-            onClick={() => setIsSidebarOpen(true)}
-          >
-            <MdMenu />
-          </button>
+    <>
+      {/* ================= HEADER ================= */}
+      <header
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "h-[80px] bg-black/30 backdrop-blur-md border-b border-white/10"
+            : "h-[100px] bg-accent"
+        } text-white px-6 lg:px-12 shadow-lg`}
+      >
+        <div className="w-full h-full flex items-center justify-between max-w-7xl mx-auto">
+          {/* ===== Left Side ===== */}
+          <div className="flex items-center gap-4">
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden text-3xl hover:scale-110 transition"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <MdMenu />
+            </button>
 
-          <Link to="/" className="h-full flex items-center group">
-            <img
-              src="/logo.png"
-              className={`object-contain transition-all duration-300 ${
-                scrolled ? "h-[60px] w-auto" : "h-[90px] w-auto"
-              } group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]`}
-              alt="Crystal Beauty Clear"
-            />
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8 text-lg font-medium">
-          {["Home", "Products", "About", "Contact", "My Orders"].map((item) => {
-            const path =
-              item === "Home"
-                ? "/"
-                : item === "My Orders"
-                  ? "/orders"
-                  : `/${item.toLowerCase()}`;
-            const isActive = location.pathname === path;
-
-            return (
-              <Link
-                key={item}
-                to={path}
-                className={`relative py-2 transition-colors duration-300 ${
-                  isActive
-                    ? "text-primary font-bold"
-                    : "text-white/90 hover:text-white"
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className={`transition-all duration-300 ${
+                  scrolled ? "h-[60px]" : "h-[90px]"
                 }`}
-              >
-                {item}
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-left transition-transform duration-300 ${
-                    isActive
-                      ? "scale-x-100"
-                      : "scale-x-0 group-hover:scale-x-100"
-                  }`}
-                />
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Right Actions */}
-        <div className="flex items-center gap-6">
-          <div className="hidden lg:block relative group">
-            <UserData />
+              />
+            </Link>
           </div>
 
-          <Link
-            to="/cart"
-            className="relative text-2xl hover:text-primary transition-all duration-300 hover:scale-110 active:scale-95"
-          >
-            <BsCart3 />
-            {/* Optional: Add badge here if you have cart count in context */}
-          </Link>
-        </div>
-      </div>
+          {/* ===== Desktop Navigation ===== */}
+          <nav className="hidden lg:flex items-center gap-8 text-lg font-medium">
+            {navItems.slice(0, 5).map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={`relative py-2 ${
+                    isActive
+                      ? "text-primary font-bold"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {item.name}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"></span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
 
-      {/* Mobile Sidebar Overlay */}
+          {/* ===== Right Side ===== */}
+          <div className="flex items-center gap-6">
+            <div className="hidden lg:block">
+              <UserData />
+            </div>
+
+            <Link to="/cart" className="text-2xl hover:scale-110 transition">
+              <BsCart3 />
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* ================= MOBILE SIDEBAR ================= */}
       <div
-        className={`fixed inset-0  backdrop-blur-sm z-[100] transition-opacity duration-300 lg:hidden ${
-          isSideBarOpen
+        className={`fixed inset-0 z-[100] transition-opacity duration-300 lg:hidden ${
+          isSidebarOpen
             ? "opacity-100 visible"
             : "opacity-0 invisible pointer-events-none"
         }`}
         onClick={() => setIsSidebarOpen(false)}
       >
-        {/* Mobile Sidebar */}
+        {/* Sidebar */}
         <div
-          className={`absolute top-0 left-0 w-[280px] h-full bg-[#fef3e2] shadow-2xl transition-transform duration-300 flex flex-col z-[110] ${
-            isSideBarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`absolute top-0 left-0 w-[280px] h-screen bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header with Logo */}
-          <div className="h-[100px] bg-accent w-full flex items-center justify-between px-6 shadow-md border-b border-white/10 flex-shrink-0">
+          {/* ===== Sidebar Header ===== */}
+          <div className="h-[90px] bg-accent flex items-center justify-between px-6">
             <img
               src="/logo.png"
-              className="h-[80px] object-contain filter drop-shadow-md"
               alt="Logo"
+              className="h-[70px] object-contain"
             />
             <button
+              className="text-white text-3xl"
               onClick={() => setIsSidebarOpen(false)}
-              className="text-white text-3xl hover:rotate-90 transition-transform duration-300"
             >
               <MdClose />
             </button>
           </div>
 
-          {/* Scrollable Menu Items */}
-          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-accent/70 scrollbar-track-primary">
-            <div className="flex flex-col py-4 bg-primary">
-              {[
-                { name: "Home", icon: <FiHome />, path: "/" },
-                {
-                  name: "Products",
-                  icon: <FiShoppingBag />,
-                  path: "/products",
-                },
-                { name: "About", icon: <FiInfo />, path: "/about" },
-                { name: "Contact", icon: <FiPhone />, path: "/contact" },
-                { name: "Cart", icon: <FiShoppingCart />, path: "/cart" },
-                { name: "My Orders", icon: <FiPackage />, path: "/orders" },
-              ].map((item) => {
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    onClick={() => setIsSidebarOpen(false)}
-                    className="group flex items-center gap-4 px-8 py-4 text-secondary/80 hover:bg-accent/10 hover:text-accent hover:pl-10 transition-all duration-300 border-b border-secondary/5 font-medium active:bg-accent/20"
-                  >
-                    <span className="text-xl group-hover:scale-110 transition-transform duration-300">
-                      {item.icon}
-                    </span>
-                    {item.name}
-                  </Link>
-                );
-              })}
+          {/* ===== Scrollable Content Area ===== */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="flex flex-col py-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="flex items-center gap-4 px-6 py-4 text-gray-700 hover:bg-accent/10 hover:text-accent transition border-b"
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  {item.name}
+                </Link>
+              ))}
             </div>
-          </div>
 
-          {/* User Data Section */}
-          <div className="bg-primary border-t border-secondary/10 pt-5 pb-7 text-black flex-shrink-0">
-            <UserDataMobile />
+            {/* ===== User Section ===== */}
+            <div className="border-t mt-4 pt-4 px-4 pb-6">
+              <UserDataMobile />
+            </div>
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
