@@ -19,8 +19,7 @@ export function ProductPage() {
         setProducts(response.data);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
+      .catch(() => {
         setIsLoading(false);
         toast.error("Failed to load products");
       });
@@ -65,7 +64,7 @@ export function ProductPage() {
             </h1>
 
             {/* ✅ Mobile Dropdown */}
-         
+
             <div className="md:hidden flex justify-center">
               <select
                 value={selectedCategory}
