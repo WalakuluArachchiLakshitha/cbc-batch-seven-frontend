@@ -121,28 +121,24 @@ export default function Header() {
       </header>
 
       {/* ================= MOBILE SIDEBAR ================= */}
+
       <div
-        className={`fixed inset-0 z-[100] transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-300 ${
           isSidebarOpen
             ? "opacity-100 visible"
             : "opacity-0 invisible pointer-events-none"
         }`}
         onClick={() => setIsSidebarOpen(false)}
       >
-        {/* Sidebar */}
         <div
-          className={`absolute top-0 left-0 w-[280px] h-screen bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
+          className={`absolute top-0 left-0 w-[280px] h-dvh bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* ===== Sidebar Header ===== */}
-          <div className="h-[90px] bg-accent flex items-center justify-between px-6">
-            <img
-              src="/logo.png"
-              alt="Logo"
-              className="h-[70px] object-contain"
-            />
+          {/* Sidebar Header */}
+          <div className="h-[90px] bg-accent flex items-center justify-between px-6 shrink-0">
+            <img src="/logo.png" alt="Logo" className="h-[65px]" />
             <button
               className="text-white text-3xl"
               onClick={() => setIsSidebarOpen(false)}
@@ -151,24 +147,21 @@ export default function Header() {
             </button>
           </div>
 
-          {/* ===== Scrollable Content Area ===== */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="flex flex-col py-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="flex items-center gap-4 px-6 py-4 text-gray-700 hover:bg-accent/10 hover:text-accent transition border-b"
-                >
-                  <span className="text-xl">{item.icon}</span>
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto overscroll-contain px-2 py-4 space-y-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsSidebarOpen(false)}
+                className="flex items-center gap-4 px-4 py-3 rounded-lg text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+              >
+                <span className="text-lg">{item.icon}</span>
+                {item.name}
+              </Link>
+            ))}
 
-            {/* ===== User Section ===== */}
-            <div className="border-t mt-4 pt-4 px-4 pb-6">
+            <div className="pt-4 border-t">
               <UserDataMobile />
             </div>
           </div>

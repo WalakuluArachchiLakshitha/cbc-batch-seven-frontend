@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 @layer base {
   :root {
@@ -19,10 +19,10 @@
 
   ::selection {
     @apply bg-[#fa812f]/30 text-[#393e46];
-  }
+  } */
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
+/* Custom Scrollbar */
+/* ::-webkit-scrollbar {
     width: 8px;
   }
 
@@ -33,10 +33,10 @@
   ::-webkit-scrollbar-thumb {
     @apply bg-[#fa812f]/50 rounded-full hover:bg-[#fa812f] transition-colors;
   }
-}
+} */
 
 /* Animations */
-@keyframes float {
+/* @keyframes float {
   0%,
   100% {
     transform: translateY(0);
@@ -49,10 +49,10 @@
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
-}
+} */
 
 /* Custom Scrollbar for Mobile Sidebar */
-.scrollbar-thin::-webkit-scrollbar {
+/* .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -62,4 +62,11 @@
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
   @apply bg-accent/70 rounded-full hover:bg-accent transition-colors;
+} */
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #fa812f;
+  --color-primary: #fef3e2;
+  --color-secondary: #393e46;
 }
