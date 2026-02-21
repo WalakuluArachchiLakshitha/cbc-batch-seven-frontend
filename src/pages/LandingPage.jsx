@@ -21,7 +21,6 @@ export default function LandingPage() {
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   useEffect(() => {
-    // Fetch featured products (first 6 products)
     axios
       .get(import.meta.env.VITE_API_URL + "/api/products")
       .then((res) => {
@@ -109,12 +108,10 @@ export default function LandingPage() {
         />
       </Helmet>
 
-      {/* ─── HERO SECTION ─────────────────────────────────────────────────── */}
       <section className="relative w-full min-h-[85vh] pt-32 lg:pt-36 flex items-center bg-[url('/bg.jpg')] bg-cover bg-center bg-no-repeat bg-fixed">
         <div className="absolute inset-0 bg-primary/80 backdrop-blur-sm"></div>
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-12 w-full grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
           <div className="space-y-8 z-10 animate-slide-in-left">
             <span className="inline-block px-4 py-1 rounded-full border border-accent/30 bg-accent/5 text-accent font-semibold text-sm tracking-wider uppercase mb-2">
               Premium Beauty Collection
@@ -159,16 +156,14 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Illustration */}
           <div className="hidden lg:flex justify-center relative">
             <div className="relative w-[500px] h-[500px] animate-float">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-[100px] animate-pulse"></div>
-              {/* You can replace this emoji with a transparent PNG product image */}
+
               <div className="relative z-10 w-full h-full flex items-center justify-center text-[250px] drop-shadow-2xl filter hover:scale-105 transition-transform duration-500 cursor-pointer">
                 🧴
               </div>
 
-              {/* Floating Cards */}
               <div
                 className="absolute top-20 -right-4 glass-card p-4 rounded-2xl flex items-center gap-3 animate-bounce shadow-lg"
                 style={{ animationDuration: "3s" }}
@@ -196,7 +191,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── FEATURES BANNER ──────────────────────────────────────────────── */}
       <section className="bg-white/50 backdrop-blur-md border-y border-secondary/5 py-10 relative z-20 mt-10 mx-4 lg:mx-12 rounded-2xl shadow-xl">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 px-8">
           {[
@@ -237,7 +231,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── CATEGORIES ───────────────────────────────────────────────────── */}
       <section className="py-24 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="text-accent font-semibold tracking-wider uppercase text-sm">
@@ -263,14 +256,12 @@ export default function LandingPage() {
                 {cat.name}
               </h3>
 
-              {/* Hover shine effect */}
               <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl pointer-events-none" />
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ─── FEATURED PRODUCTS ────────────────────────────────────────────── */}
       <section className="py-24 bg-secondary/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
@@ -304,7 +295,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS ─────────────────────────────────────────────────── */}
       <section className="py-24 overflow-hidden relative">
         <div className="absolute inset-0 bg-gradient-to-b from-primary to-accent/5 -z-10" />
 
@@ -365,7 +355,6 @@ export default function LandingPage() {
         )}
       </section>
 
-      {/* ─── NEWSLETTER ───────────────────────────────────────────────────── */}
       <section className="py-24 bg-secondary text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[100px]"></div>
@@ -396,7 +385,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── FOOTER ───────────────────────────────────────────────────────── */}
       <footer className="bg-secondary p-12 lg:p-16 border-t border-white/10 text-white/60">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4">
@@ -494,7 +482,6 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* ─── REVIEW MODAL ─────────────────────────────────────────────────── */}
       {showReviewModal && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
@@ -577,7 +564,6 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* Inline styles for custom animations */}
       <style>{`
                 @keyframes marquee {
                     0% { transform: translateX(0%); }

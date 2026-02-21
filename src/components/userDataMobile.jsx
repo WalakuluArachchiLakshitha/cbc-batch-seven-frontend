@@ -60,7 +60,6 @@ export default function UserDataMobile() {
   return (
     <>
       <div className="bg-white rounded-2xl p-4 shadow-md border">
-        {/* Profile */}
         <div className="flex items-center gap-3 mb-3">
           <img
             src={
@@ -77,7 +76,6 @@ export default function UserDataMobile() {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="flex flex-col gap-2 text-sm">
           <button
             onClick={() => (window.location.href = "/settings")}
@@ -111,7 +109,6 @@ export default function UserDataMobile() {
         </div>
       </div>
 
-      {/* Logout Modal */}
       {isLogoutConfirmOpen && (
         <div className="fixed inset-0 z-[200] bg-black/50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">

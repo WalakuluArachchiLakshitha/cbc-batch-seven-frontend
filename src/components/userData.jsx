@@ -24,7 +24,6 @@ export default function UserData() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Click-outside to close menu
   useEffect(() => {
     function onDocClick(e) {
       if (!menuOpen) return;
@@ -62,7 +61,6 @@ export default function UserData() {
 
   return (
     <div className="w-full flex items-center justify-center">
-      {/* Loading state */}
       {loading && (
         <div
           className="h-9 w-9 rounded-full border-2 border-primary border-b-transparent animate-spin"
@@ -71,7 +69,6 @@ export default function UserData() {
         />
       )}
 
-      {/* Logged-out CTA */}
       {!loading && !user && (
         <a
           href="/login"
@@ -81,11 +78,9 @@ export default function UserData() {
         </a>
       )}
 
-      {/* Logged-in menu */}
       {user && (
         <div className="relative flex items-center gap-3">
           <div className="flex items-center gap-3 rounded-full bg-primary/80 px-3 py-1.5 shadow-sm ring-1 ring-secondary/10">
-            {/* Avatar */}
             {user.image ? (
               <img
                 src={user.image}
@@ -98,7 +93,6 @@ export default function UserData() {
               </div>
             )}
 
-            {/* Name + role (optional) */}
             <div className="hidden sm:flex flex-col leading-tight">
               <span className="text-sm font-semibold text-secondary">
                 {user.firstName ?? "User"}
@@ -110,7 +104,6 @@ export default function UserData() {
               )}
             </div>
 
-            {/* Menu button */}
             <button
               ref={btnRef}
               type="button"
@@ -122,7 +115,7 @@ export default function UserData() {
                 if (e.key === "ArrowDown") {
                   e.preventDefault();
                   setMenuOpen(true);
-                  // focus first item after opening (next tick)
+
                   setTimeout(() => {
                     const first = menuRef.current?.querySelector(
                       "button[data-menu-item]",
@@ -144,7 +137,6 @@ export default function UserData() {
             </button>
           </div>
 
-          {/* Dropdown */}
           {menuOpen && (
             <div
               ref={menuRef}

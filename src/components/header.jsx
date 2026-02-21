@@ -18,7 +18,6 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  /* ================= Scroll Effect ================= */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -28,12 +27,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ============ Close Sidebar On Route Change ============ */
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location]);
 
-  /* ============ Prevent Background Scroll When Sidebar Open ============ */
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -53,7 +50,6 @@ export default function Header() {
 
   return (
     <>
-      {/* ================= HEADER ================= */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled
@@ -62,9 +58,7 @@ export default function Header() {
         } text-white px-6 lg:px-12 shadow-lg`}
       >
         <div className="w-full h-full flex items-center justify-between max-w-7xl mx-auto">
-          {/* ===== Left Side ===== */}
           <div className="flex items-center gap-4">
-            {/* Mobile Menu Button */}
             <button
               className="lg:hidden text-3xl hover:scale-110 transition"
               onClick={() => setIsSidebarOpen(true)}
@@ -72,7 +66,6 @@ export default function Header() {
               <MdMenu />
             </button>
 
-            {/* Logo */}
             <Link to="/" className="flex items-center">
               <img
                 src="/logo.png"
@@ -84,7 +77,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* ===== Desktop Navigation ===== */}
           <nav className="hidden lg:flex items-center gap-8 text-lg font-medium">
             {navItems.slice(0, 5).map((item) => {
               const isActive = location.pathname === item.path;
@@ -107,7 +99,6 @@ export default function Header() {
             })}
           </nav>
 
-          {/* ===== Right Side ===== */}
           <div className="flex items-center gap-6">
             <div className="hidden lg:block">
               <UserData />
@@ -120,8 +111,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ================= MOBILE SIDEBAR ================= */}
-
       <div
         className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-300 ${
           isSidebarOpen
@@ -130,14 +119,12 @@ export default function Header() {
         }`}
         onClick={() => setIsSidebarOpen(false)}
       >
-        {/* Sidebar Panel */}
         <div
           className={`absolute top-0 left-0 w-[280px] h-screen bg-[#fef3e2] shadow-2xl flex flex-col transform transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Sidebar Header */}
           <div className="h-[90px] bg-accent flex items-center justify-between px-6 shrink-0">
             <img src="/logo.png" alt="Logo" className="h-[65px]" />
             <button
@@ -148,7 +135,6 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Scrollable Content */}
           <div className="flex-1 overflow-y-scroll px-2 py-4 space-y-2">
             {navItems.map((item) => (
               <Link
@@ -162,7 +148,6 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* User Section */}
             <div className="pt-4 border-t mt-4">
               <UserDataMobile />
             </div>

@@ -35,7 +35,6 @@ export default function UserSettings() {
       });
   }, []);
 
-  // No-ops per your spec (wire your API calls here)
   async function updateUserData() {
     try {
       let imageLink = user?.image || "";
@@ -104,7 +103,6 @@ export default function UserSettings() {
   return (
     <div className="min-h-screen w-full bg-[url('/bg.jpg')] bg-cover bg-center bg-no-repeat flex flex-col items-center py-4 px-2 overflow-auto">
       <div className="w-full max-w-md flex flex-col gap-6">
-        {/* User Info Card */}
         <div className="w-full backdrop-blur-2xl rounded-2xl p-4 flex flex-col bg-primary/90 shadow-xl ring-1 ring-secondary/10">
           <h1 className="text-xl font-bold mb-4 text-center text-secondary">
             User Settings
@@ -164,7 +162,7 @@ export default function UserSettings() {
             Save Profile
           </button>
         </div>
-        {/* Password Card */}
+
         <div className="w-full backdrop-blur-2xl rounded-2xl p-4 flex flex-col bg-primary/90 shadow-xl ring-1 ring-secondary/10">
           <h2 className="text-xl font-bold mb-4 text-center text-secondary">
             Change Password

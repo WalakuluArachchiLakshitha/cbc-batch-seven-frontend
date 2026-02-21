@@ -45,7 +45,6 @@ export default function OrderModal({
         role="dialog"
         aria-modal="true"
       >
-        {/* Header */}
         <div className="flex items-start justify-between gap-4 border-b border-secondary/10 px-6 py-4">
           <div className="space-y-1">
             <h2 className="text-lg font-semibold text-secondary">
@@ -77,9 +76,7 @@ export default function OrderModal({
           </button>
         </div>
 
-        {/* Body */}
         <div className="max-h-[70vh] overflow-y-auto px-6 py-5">
-          {/* Summary */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-secondary/5">
               <h3 className="mb-3 text-sm font-semibold text-secondary">
@@ -134,7 +131,6 @@ export default function OrderModal({
             </div>
           </div>
 
-          {/* Items */}
           <div className="mt-5 rounded-xl bg-white shadow-sm ring-1 ring-secondary/5">
             <div className="border-b border-secondary/10 px-4 py-3 text-sm font-semibold text-secondary">
               Line Items
@@ -181,7 +177,6 @@ export default function OrderModal({
           </div>
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between gap-3 border-t border-secondary/10 px-6 py-4">
           <span className="text-sm text-secondary/60">
             {selectedOrder.items?.length ?? 0} items •{" "}
