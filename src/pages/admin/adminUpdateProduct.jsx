@@ -12,13 +12,7 @@ export default function UpdateProductPage() {
   const [name, setName] = useState(location.state.name);
   const [altNames, setAltNames] = useState(location.state.altNames.join(","));
   const [description, setDescription] = useState(location.state.description);
-
   const [images, setImages] = useState([]);
-
-  const [images, setImages] = useState(
-    location.state.image ? location.state.image.join("\n") : "",
-  );
-
   const [price, setPrice] = useState(location.state.price);
   const [labelledPrice, setLabelledPrice] = useState(location.state.labelPrice);
   const [category, setCategory] = useState(location.state.category);
@@ -32,7 +26,6 @@ export default function UpdateProductPage() {
     }
 
     try {
-
       const promises = [];
       for (let i = 0; i < images.length; i++) {
         promises.push(mediaUpload(images[i]));
@@ -43,12 +36,6 @@ export default function UpdateProductPage() {
       if (urls.length === 0) {
         urls = location.state.image;
       }
-
-      const imageUrls = images
-        .split(/[\n,]+/)
-        .map((url) => url.trim())
-        .filter((url) => url.length > 0);
-
 
       const alternativeNames = altNames
         .split(",")
@@ -149,7 +136,6 @@ export default function UpdateProductPage() {
 
             {/* Images */}
 
-
             {/* <label className="flex flex-col gap-1.5 md:col-span-2">
 							<span className="text-sm font-medium text-secondary">Images</span>
 							<input
@@ -164,7 +150,6 @@ export default function UpdateProductPage() {
 								PNG/JPG recommended. Multiple files supported.
 							</span>
 						</label> */}
-
 
             <label className="flex flex-col gap-1.5 md:col-span-2">
               <span className="text-sm font-medium text-secondary">Images</span>
@@ -181,10 +166,6 @@ export default function UpdateProductPage() {
             </label>
 
             {/* Price */}
-
-            </label>
-
-
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">Price</span>
               <input
