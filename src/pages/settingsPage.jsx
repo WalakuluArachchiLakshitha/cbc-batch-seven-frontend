@@ -35,7 +35,6 @@ export default function UserSettings() {
       });
   }, []);
 
-  // No-ops per your spec (wire your API calls here)
   async function updateUserData() {
     try {
       let imageLink = user?.image || "";
@@ -103,13 +102,11 @@ export default function UserSettings() {
 
   return (
     <div className="w-full h-full bg-[url('/bg.jpg')] bg-cover bg-center bg-no-repeat flex flex-col lg:flex-row justify-center">
-      {/* Left: User Info */}
       <div className="w-full lg:w-[40%] backdrop-blur-2xl rounded-2xl m-8 p-6 flex flex-col bg-primary/70 shadow-xl ring-1 ring-secondary/10">
         <h1 className="text-2xl font-bold mb-6 text-center text-secondary">
           User Settings
         </h1>
 
-        {/* Avatar + Uploader */}
         <div className="flex items-center gap-4 mb-6">
           <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-accent/60 shrink-0">
             {imagePreview ? (
@@ -144,7 +141,6 @@ export default function UserSettings() {
           </label>
         </div>
 
-        {/* Names */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col">
             <label className="text-sm text-secondary/80 mb-1">First name</label>
@@ -166,7 +162,6 @@ export default function UserSettings() {
           </div>
         </div>
 
-        {/* Save */}
         <div className="mt-6">
           <button
             onClick={updateUserData}
@@ -177,7 +172,6 @@ export default function UserSettings() {
         </div>
       </div>
 
-      {/* Right: Password */}
       <div className="w-full lg:w-[40%] backdrop-blur-2xl rounded-2xl m-8 p-6 flex flex-col bg-primary/70 shadow-xl ring-1 ring-secondary/10">
         <h2 className="text-2xl font-bold mb-6 text-center text-secondary">
           Change Password

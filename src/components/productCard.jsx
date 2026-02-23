@@ -17,7 +17,6 @@ export default function ProductCard({ product }) {
       to={"/overview/" + product.productID}
       className="group relative w-full max-w-[320px] bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-secondary/5"
     >
-      {/* Image Wrapper */}
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-100">
         <img
           className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
@@ -28,10 +27,8 @@ export default function ProductCard({ product }) {
           alt={product.name}
         />
 
-        {/* Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Quick Actions (Hover) */}
         {!isOutOfStock && (
           <div
             className="absolute bottom-4 left-0 w-full 
@@ -59,7 +56,6 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
-        {/* Stock Badge */}
         <div className="absolute top-3 left-3">
           {isOutOfStock ? (
             <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
@@ -73,7 +69,6 @@ export default function ProductCard({ product }) {
         </div>
       </div>
 
-      {/* Details */}
       <div className="p-5 flex flex-col gap-2">
         <div className="text-sm text-secondary/50 uppercase tracking-wider font-semibold">
           {product.category || "Beauty"}

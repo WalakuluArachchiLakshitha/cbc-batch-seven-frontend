@@ -50,15 +50,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen w-full relative flex items-stretch">
-      {/* Background image + gradient overlay */}
       <div className="absolute inset-0">
         <div className="h-full w-full bg-[url('/bg.jpg')] bg-cover bg-center" />
         <div className="absolute inset-0 bg-gradient-to-br from-secondary/70 via-secondary/40 to-primary/70" />
       </div>
 
-      {/* Layout */}
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 w-full">
-        {/* Left side hero */}
         <div className="hidden lg:flex flex-col justify-between p-10">
           <div className="flex items-center gap-4">
             <img
@@ -90,7 +87,6 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Right side form */}
         <div className="flex items-center justify-center p-6 sm:p-10">
           <div className="w-full max-w-md">
             <div className="rounded-3xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl p-8 sm:p-10">
@@ -159,7 +155,6 @@ export default function LoginPage() {
                   Login
                 </button>
 
-                {/* Google Login - only shows when Google Client ID is configured */}
                 {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
                   <>
                     <div className="relative text-center my-2">
@@ -217,7 +212,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Small footer for mobile */}
             <p className="mt-6 text-center text-primary/80 text-xs lg:hidden">
               © {new Date().getFullYear()} CBC – Crystal Beauty Clear
             </p>

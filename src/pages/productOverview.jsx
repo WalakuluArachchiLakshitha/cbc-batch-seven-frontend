@@ -27,7 +27,6 @@ export default function ProductOverview() {
       });
   }, [params.id]);
 
-  // Auto-slide reviews every 4 seconds
   useEffect(() => {
     if (product && product.reviews && product.reviews.length > 1) {
       slideInterval.current = setInterval(() => {
@@ -76,11 +75,11 @@ export default function ProductOverview() {
                   );
                 })}
               </h1>
-              {/* description */}
+
               <p className="mt-[30px] text-justify">{product.description}</p>
-              {/* category */}
+
               <p>Category: {product.category}</p>
-              {/* price */}
+
               {product.labelPrice > product.price ? (
                 <div className="flex gap-3 items-center">
                   <p className="text-lg text-secondary font-semibold line-through">
@@ -132,13 +131,12 @@ export default function ProductOverview() {
             </div>
           </div>
 
-          {/* REVIEWS SECTION */}
           <div className="w-full p-10 flex flex-col items-center border-t border-secondary/20">
             <div className="w-full lg:w-[80%] flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-secondary">
                 Customer Reviews
               </h2>
-              {/* Button to open Write a Review popup */}
+
               <button
                 onClick={() => setShowReviewModal(true)}
                 className="bg-accent text-white px-5 py-2 rounded font-semibold hover:bg-accent/80 transition-all duration-200 shadow-md"
@@ -147,10 +145,8 @@ export default function ProductOverview() {
               </button>
             </div>
 
-            {/* Auto-sliding Reviews Display */}
             {reversedReviews.length > 0 ? (
               <div className="w-full lg:w-[80%]">
-                {/* Sliding Review Card */}
                 <div className="relative overflow-hidden rounded-lg">
                   <div
                     className="flex transition-transform duration-700 ease-in-out"
@@ -183,7 +179,6 @@ export default function ProductOverview() {
                   </div>
                 </div>
 
-                {/* Dot Navigation */}
                 {reversedReviews.length > 1 && (
                   <div className="flex justify-center gap-2 mt-4">
                     {reversedReviews.map((_, index) => (
@@ -200,7 +195,6 @@ export default function ProductOverview() {
                   </div>
                 )}
 
-                {/* Review count */}
                 <p className="text-center text-sm text-gray-400 mt-3">
                   {currentReviewIndex + 1} / {reversedReviews.length} reviews
                 </p>
@@ -225,7 +219,6 @@ export default function ProductOverview() {
         <h1 className="text-red-500">Failed to load product details</h1>
       )}
 
-      {/* ===== REVIEW POPUP MODAL ===== */}
       {showReviewModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -234,7 +227,6 @@ export default function ProductOverview() {
           }}
         >
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 p-8 relative animate-fadeIn">
-            {/* Close Button */}
             <button
               onClick={() => setShowReviewModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold leading-none"
@@ -264,7 +256,7 @@ export default function ProductOverview() {
                   .then((res) => {
                     toast.success("Review submitted successfully!");
                     setProduct({ ...product, reviews: res.data.reviews });
-                    setCurrentReviewIndex(0); // Go to newest review
+                    setCurrentReviewIndex(0);
                     e.target.reset();
                     setShowReviewModal(false);
                   })
