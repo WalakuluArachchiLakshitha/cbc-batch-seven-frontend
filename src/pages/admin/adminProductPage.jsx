@@ -39,7 +39,11 @@ function ProductDeleteConfirm(props) {
         >
           X
         </button>
+
+        <p className="text-xl font-semibold pl-7">
+
         <p className="text-xl font-semibold">
+
           Are you sure you want to delete the product with product ID :{" "}
           {productID}?
         </p>
@@ -60,6 +64,10 @@ function ProductDeleteConfirm(props) {
       </div>
     </div>
   );
+
+
+
+
 }
 
 export default function AdminProductPage() {

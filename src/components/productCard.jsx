@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { BsCartPlus, BsEye } from "react-icons/bs";
 import { addToCart } from "../utils/cart";
 import toast from "react-hot-toast";
 
