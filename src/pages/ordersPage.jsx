@@ -38,6 +38,8 @@ const statusConfig = {
     color: "bg-purple-100 text-purple-700 border-purple-200",
   },
 
+
+
   paid: {
     label: "Paid",
     color: "bg-green-100 text-green-700 border-green-200",
@@ -154,6 +156,7 @@ function OrderDetailModal({ order, onClose }) {
                 <div className="flex justify-between">
                   <dt className="text-secondary/60">Phone</dt>
                   <dd className="font-medium text-secondary">{order.phone}</dd>
+
                 </div>
                 <div className="flex items-start justify-between gap-2">
                   <dt className="text-secondary/60 shrink-0">Address</dt>
@@ -194,6 +197,48 @@ function OrderDetailModal({ order, onClose }) {
             <div className="bg-secondary text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wide">
               Order Items
             </div>
+
+                </div>
+                <div className="flex items-start justify-between gap-2">
+                  <dt className="text-secondary/60 shrink-0">Address</dt>
+                  <dd className="font-medium text-secondary text-right">
+                    {order.address}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <div className="rounded-xl bg-primary/60 p-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-secondary/60 mb-3">
+                Payment Summary
+              </h3>
+              <dl className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <dt className="text-secondary/60">Items</dt>
+                  <dd className="font-medium text-secondary">
+                    {order.items?.length ?? 0}
+                  </dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-secondary/60">Order Total</dt>
+                  <dd className="font-bold text-accent">
+                    {formatLKR(order.total)}
+                  </dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-secondary/60">Payment</dt>
+                  <dd>
+                    <StatusBadge status={order.paymentStatus} />
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-secondary/10 overflow-hidden">
+            <div className="bg-secondary text-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wide">
+              Order Items
+            </div>
+
             <ul className="divide-y divide-secondary/10">
               {order.items?.map((item) => (
                 <li
@@ -237,6 +282,7 @@ export default function OrdersPage() {
   const [expandedOrder, setExpandedOrder] = useState(null);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -262,6 +308,35 @@ export default function OrdersPage() {
         order={expandedOrder}
         onClose={() => setExpandedOrder(null)}
       />
+
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    axios
+      .get(import.meta.env.VITE_API_URL + "/api/orders/my-orders", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setOrders(res.data);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  }, [navigate]);
+
+  return (
+    <div className="w-full min-h-[calc(100vh-100px)] bg-primary py-8 px-4 mt-20">
+      <OrderDetailModal
+        order={expandedOrder}
+        onClose={() => setExpandedOrder(null)}
+      />
+
 
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">

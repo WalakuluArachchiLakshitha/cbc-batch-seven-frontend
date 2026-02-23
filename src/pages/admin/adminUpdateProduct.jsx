@@ -1,35 +1,54 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import mediaUpload from "../../utils/mediaUpload";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function UpdateProductPage() {
   const location = useLocation();
-  const [productId, setProductId] = useState(location.state.productID);
+  const navigate = useNavigate();
+
+  const productId = location.state.productID;
   const [name, setName] = useState(location.state.name);
   const [altNames, setAltNames] = useState(location.state.altNames.join(","));
   const [description, setDescription] = useState(location.state.description);
+
+  const [images, setImages] = useState([]);
+
   const [images, setImages] = useState(
     location.state.image ? location.state.image.join("\n") : "",
   );
+
   const [price, setPrice] = useState(location.state.price);
   const [labelledPrice, setLabelledPrice] = useState(location.state.labelPrice);
   const [category, setCategory] = useState(location.state.category);
   const [stock, setStock] = useState(location.state.stock);
-  const navigate = useNavigate();
 
   async function updateProduct() {
     const token = localStorage.getItem("token");
-    if (token == null) {
+    if (!token) {
       navigate("/login");
       return;
     }
 
     try {
+
+      const promises = [];
+      for (let i = 0; i < images.length; i++) {
+        promises.push(mediaUpload(images[i]));
+      }
+
+      let urls = await Promise.all(promises);
+
+      if (urls.length === 0) {
+        urls = location.state.image;
+      }
+
       const imageUrls = images
         .split(/[\n,]+/)
         .map((url) => url.trim())
         .filter((url) => url.length > 0);
+
 
       const alternativeNames = altNames
         .split(",")
@@ -41,7 +60,7 @@ export default function UpdateProductPage() {
         name,
         altNames: alternativeNames,
         description,
-        image: imageUrls,
+        image: urls,
         price: Number(price),
         labelPrice: Number(labelledPrice),
         category,
@@ -49,7 +68,7 @@ export default function UpdateProductPage() {
       };
 
       await axios.put(
-        import.meta.env.VITE_API_URL + "/api/products/" + productId,
+        `${import.meta.env.VITE_API_URL}/api/products/${productId}`,
         product,
         {
           headers: {
@@ -57,10 +76,10 @@ export default function UpdateProductPage() {
           },
         },
       );
+
       toast.success("Product updated successfully");
       navigate("/admin/products");
-    } catch (error) {
-      console.error("Error updating product:", error);
+    } catch {
       toast.error("An error occurred");
     }
   }
@@ -74,7 +93,7 @@ export default function UpdateProductPage() {
               Update Product
             </h1>
             <p className="text-sm text-secondary/70">
-              Create a new SKU with clean metadata.
+              Edit product details and metadata.
             </p>
           </div>
           <div className="h-10 w-10 rounded-full bg-accent/15 ring-1 ring-accent/30" />
@@ -88,11 +107,8 @@ export default function UpdateProductPage() {
               </span>
               <input
                 disabled
-                className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
+                className="h-11 rounded-xl border border-secondary/20 bg-gray-100 px-3 text-secondary placeholder:text-secondary/40 outline-none"
                 value={productId}
-                onChange={(e) => {
-                  setProductId(e.target.value);
-                }}
                 placeholder="e.g., DS-CR-001"
               />
             </label>
@@ -102,9 +118,7 @@ export default function UpdateProductPage() {
               <input
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="e.g., Diamond Shine Night Cream"
               />
             </label>
@@ -116,9 +130,7 @@ export default function UpdateProductPage() {
               <input
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
                 value={altNames}
-                onChange={(e) => {
-                  setAltNames(e.target.value);
-                }}
+                onChange={(e) => setAltNames(e.target.value)}
                 placeholder="Comma-separated; e.g., night cream, hydrating cream"
               />
             </label>
@@ -130,14 +142,14 @@ export default function UpdateProductPage() {
               <textarea
                 className="min-h-[120px] rounded-xl border border-secondary/20 bg-white px-3 py-2 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
                 value={description}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief product overview, benefits, and usage."
               />
             </label>
 
             {/* Images */}
+
+
             {/* <label className="flex flex-col gap-1.5 md:col-span-2">
 							<span className="text-sm font-medium text-secondary">Images</span>
 							<input
@@ -153,29 +165,32 @@ export default function UpdateProductPage() {
 							</span>
 						</label> */}
 
-            <label className="flex flex-col gap-1.5 md:col-span-2">
-              <span className="text-sm font-medium text-secondary">
-                Image URLs
-              </span>
 
-              <textarea
-                className="min-h-[100px] rounded-xl border border-secondary/20 bg-white px-3 py-2 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
-                value={images}
-                onChange={(e) => {
-                  setImages(e.target.value);
-                }}
-                placeholder="Paste image URLs here (one per line or comma separated)"
+            <label className="flex flex-col gap-1.5 md:col-span-2">
+              <span className="text-sm font-medium text-secondary">Images</span>
+              <input
+                type="file"
+                multiple
+                onChange={(e) => setImages(Array.from(e.target.files || []))}
+                className="block w-full cursor-pointer rounded-xl border border-secondary/20 bg-white file:mr-4 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-secondary file:font-medium hover:file:bg-accent/20 transition"
               />
+
+              <span className="text-xs text-secondary/60">
+                PNG/JPG recommended. Multiple files supported.
+              </span>
             </label>
+
+            {/* Price */}
+
+            </label>
+
 
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">Price</span>
               <input
                 type="number"
                 value={price}
-                onChange={(e) => {
-                  setPrice(e.target.value);
-                }}
+                onChange={(e) => setPrice(e.target.value)}
                 placeholder="0.00"
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               />
@@ -188,9 +203,7 @@ export default function UpdateProductPage() {
               <input
                 type="number"
                 value={labelledPrice}
-                onChange={(e) => {
-                  setLabelledPrice(e.target.value);
-                }}
+                onChange={(e) => setLabelledPrice(e.target.value)}
                 placeholder="MRP / Sticker Price"
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               />
@@ -202,9 +215,7 @@ export default function UpdateProductPage() {
               </span>
               <select
                 value={category}
-                onChange={(e) => {
-                  setCategory(e.target.value);
-                }}
+                onChange={(e) => setCategory(e.target.value)}
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               >
                 <option value="haircare">Haircare</option>
@@ -213,6 +224,8 @@ export default function UpdateProductPage() {
                 <option value="jewellery">Jewellery</option>
                 <option value="perfumes">Perfumes</option>
                 <option value="accessories">Accessories</option>
+                <option value="looksmaxxing">LooksMaxxing</option>
+                <option value="combopack">Combo Pack</option>
               </select>
             </label>
 
@@ -221,9 +234,7 @@ export default function UpdateProductPage() {
               <input
                 type="number"
                 value={stock}
-                onChange={(e) => {
-                  setStock(e.target.value);
-                }}
+                onChange={(e) => setStock(e.target.value)}
                 placeholder="0"
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               />
@@ -237,9 +248,7 @@ export default function UpdateProductPage() {
           </span>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                navigate("/admin/products");
-              }}
+              onClick={() => navigate("/admin/products")}
               className="rounded-full bg-[#FF000050] px-3 h-[40px] w-[100px] py-1 text-md flex justify-center items-center font-medium text-secondary ring-1 ring-accent/30 hover:border-red-500 hover:border-[2px]"
             >
               Cancel

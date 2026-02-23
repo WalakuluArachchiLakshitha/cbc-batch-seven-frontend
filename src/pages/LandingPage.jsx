@@ -74,6 +74,18 @@ export default function LandingPage() {
       path: "/products/accessories",
       color: "from-teal-100 to-teal-50",
     },
+    {
+      name: "Looksmaxxing",
+      icon: "🔥",
+      path: "/products/looksmaxxing",
+      color: "from-orange-100 to-orange-50",
+    },
+    {
+      name: "Combo Pack",
+      icon: "🎁",
+      path: "/products/combopack",
+      color: "from-green-100 to-green-50",
+    },
   ];
 
   const handleNewsletterSubmit = (e) => {
@@ -526,14 +538,18 @@ export default function LandingPage() {
               }}
               className="space-y-4"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <input
                   name="name"
                   required
                   placeholder="Your Name"
-                  className="input-field"
+                  className="p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50"
                 />
-                <select name="rating" required className="input-field">
+                <select
+                  name="rating"
+                  required
+                  className="p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50"
+                >
                   <option value="5">⭐⭐⭐⭐⭐ (5)</option>
                   <option value="4">⭐⭐⭐⭐ (4)</option>
                   <option value="3">⭐⭐⭐ (3)</option>
@@ -544,17 +560,20 @@ export default function LandingPage() {
               <textarea
                 name="comment"
                 required
-                placeholder="Your thoughts..."
-                className="input-field min-h-[120px] resize-none"
+                placeholder="Share your experience with this product..."
+                className="w-full p-3 border border-gray-200 rounded-lg mb-5 h-28 resize-none focus:outline-none focus:ring-2 focus:ring-accent/50"
               ></textarea>
-              <div className="flex gap-3 pt-2">
-                <button type="submit" className="flex-1 btn-primary">
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="flex-1 bg-accent text-white py-3 rounded-lg font-semibold hover:bg-accent/80 transition-all duration-200"
+                >
                   Submit Review
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowReviewModal(false)}
-                  className="flex-1 px-6 py-3 rounded-full border border-secondary/20 text-secondary font-semibold hover:bg-secondary/5 transition-colors"
+                  className="flex-1 border border-secondary/30 text-secondary py-3 rounded-lg font-semibold hover:bg-secondary/10 transition-all duration-200"
                 >
                   Cancel
                 </button>
