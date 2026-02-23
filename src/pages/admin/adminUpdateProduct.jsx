@@ -12,7 +12,13 @@ export default function UpdateProductPage() {
   const [name, setName] = useState(location.state.name);
   const [altNames, setAltNames] = useState(location.state.altNames.join(","));
   const [description, setDescription] = useState(location.state.description);
+
   const [images, setImages] = useState([]);
+
+  const [images, setImages] = useState(
+    location.state.image ? location.state.image.join("\n") : "",
+  );
+
   const [price, setPrice] = useState(location.state.price);
   const [labelledPrice, setLabelledPrice] = useState(location.state.labelPrice);
   const [category, setCategory] = useState(location.state.category);
@@ -26,6 +32,7 @@ export default function UpdateProductPage() {
     }
 
     try {
+
       const promises = [];
       for (let i = 0; i < images.length; i++) {
         promises.push(mediaUpload(images[i]));
@@ -36,6 +43,12 @@ export default function UpdateProductPage() {
       if (urls.length === 0) {
         urls = location.state.image;
       }
+
+      const imageUrls = images
+        .split(/[\n,]+/)
+        .map((url) => url.trim())
+        .filter((url) => url.length > 0);
+
 
       const alternativeNames = altNames
         .split(",")
@@ -74,7 +87,6 @@ export default function UpdateProductPage() {
   return (
     <div className="min-h-screen w-full bg-primary/70 flex items-center justify-center p-6">
       <div className="w-full max-w-3xl rounded-2xl border border-accent/30 bg-white shadow-xl">
-        {/* Header */}
         <div className="flex items-center justify-between gap-3 border-b border-accent/20 px-6 py-5">
           <div>
             <h1 className="text-xl font-semibold text-secondary">
@@ -87,10 +99,8 @@ export default function UpdateProductPage() {
           <div className="h-10 w-10 rounded-full bg-accent/15 ring-1 ring-accent/30" />
         </div>
 
-        {/* Form grid */}
         <div className="px-6 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Product ID */}
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">
                 Product ID
@@ -103,7 +113,6 @@ export default function UpdateProductPage() {
               />
             </label>
 
-            {/* Name */}
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">Name</span>
               <input
@@ -114,7 +123,6 @@ export default function UpdateProductPage() {
               />
             </label>
 
-            {/* Alt Names */}
             <label className="flex flex-col gap-1.5 md:col-span-2">
               <span className="text-sm font-medium text-secondary">
                 Alternative Names
@@ -127,7 +135,6 @@ export default function UpdateProductPage() {
               />
             </label>
 
-            {/* Description */}
             <label className="flex flex-col gap-1.5 md:col-span-2">
               <span className="text-sm font-medium text-secondary">
                 Description
@@ -141,6 +148,24 @@ export default function UpdateProductPage() {
             </label>
 
             {/* Images */}
+
+
+            {/* <label className="flex flex-col gap-1.5 md:col-span-2">
+							<span className="text-sm font-medium text-secondary">Images</span>
+							<input
+								type="file"
+								onChange={(e) => {
+									setImages(e.target.files);
+								}}
+								multiple
+								className="block w-full cursor-pointer rounded-xl border border-secondary/20 bg-white file:mr-4 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-secondary file:font-medium hover:file:bg-accent/20 transition"
+							/>
+							<span className="text-xs text-secondary/60">
+								PNG/JPG recommended. Multiple files supported.
+							</span>
+						</label> */}
+
+
             <label className="flex flex-col gap-1.5 md:col-span-2">
               <span className="text-sm font-medium text-secondary">Images</span>
               <input
@@ -149,12 +174,17 @@ export default function UpdateProductPage() {
                 onChange={(e) => setImages(Array.from(e.target.files || []))}
                 className="block w-full cursor-pointer rounded-xl border border-secondary/20 bg-white file:mr-4 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-secondary file:font-medium hover:file:bg-accent/20 transition"
               />
+
               <span className="text-xs text-secondary/60">
                 PNG/JPG recommended. Multiple files supported.
               </span>
             </label>
 
             {/* Price */}
+
+            </label>
+
+
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">Price</span>
               <input
@@ -166,7 +196,6 @@ export default function UpdateProductPage() {
               />
             </label>
 
-            {/* Labelled Price */}
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">
                 Labelled Price
@@ -180,7 +209,6 @@ export default function UpdateProductPage() {
               />
             </label>
 
-            {/* Category */}
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">
                 Category
@@ -201,7 +229,6 @@ export default function UpdateProductPage() {
               </select>
             </label>
 
-            {/* Stock */}
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-secondary">Stock</span>
               <input
@@ -215,7 +242,6 @@ export default function UpdateProductPage() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between gap-3 border-t border-accent/20 px-6 py-4">
           <span className="text-xs text-secondary/60">
             Tip: Maintain consistent naming for SKU discoverability.

@@ -36,24 +36,7 @@ export default function ProductCard({ product }) {
                   justify-center gap-3 
                   translate-y-10 group-hover:translate-y-0 
                   transition-transform duration-300"
-          >
-            {/* <button
-              onClick={handleAddToCart}
-              className="bg-white text-secondary hover:text-accent 
-                 p-3 rounded-full shadow-lg 
-                 hover:scale-110 transition-all"
-              title="Add to Cart"
-            >
-              <BsCartPlus size={20} />
-            </button> */}
-
-            {/* <div
-              className="bg-accent text-white p-3 rounded-full 
-                    shadow-lg hover:scale-110 transition-all"
-            >
-              <BsEye size={20} />
-            </div> */}
-          </div>
+          ></div>
         )}
 
         <div className="absolute top-3 left-3">
