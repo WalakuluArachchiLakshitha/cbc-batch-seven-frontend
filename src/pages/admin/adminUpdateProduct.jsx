@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import mediaUpload from "../../utils/mediaUpload";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -9,9 +10,13 @@ export default function UpdateProductPage() {
   const [name, setName] = useState(location.state.name);
   const [altNames, setAltNames] = useState(location.state.altNames.join(","));
   const [description, setDescription] = useState(location.state.description);
+<<<<<<< Updated upstream
   const [images, setImages] = useState(
     location.state.image ? location.state.image.join("\n") : ""
   );
+=======
+  const [images, setImages] = useState([]);
+>>>>>>> Stashed changes
   const [price, setPrice] = useState(location.state.price);
   const [labelledPrice, setLabelledPrice] = useState(location.state.labelPrice);
   const [category, setCategory] = useState(location.state.category);
@@ -25,7 +30,13 @@ export default function UpdateProductPage() {
       return;
     }
 
+    const promises = [];
+    for (let i = 0; i < images.length; i++) {
+      promises[i] = mediaUpload(images[i]);
+    }
+    //
     try {
+<<<<<<< Updated upstream
       // Parse image URLs from textarea (split by newlines or commas)
       const imageUrls = images
         .split(/[\n,]+/)
@@ -36,16 +47,25 @@ export default function UpdateProductPage() {
         .split(",")
         .map(name => name.trim())
         .filter(name => name.length > 0);
+=======
+      let urls = await Promise.all(promises);
+
+      if (urls.length == 0) {
+        urls = location.state.images;
+      }
+
+      const alternativeNames = altNames.split(",");
+>>>>>>> Stashed changes
 
       const product = {
         productID: productId,
-        name,
+        name: name,
         altNames: alternativeNames,
-        description,
-        image: imageUrls,
+        description: description,
+        image: urls,
         price: Number(price),
         labelPrice: Number(labelledPrice),
-        category,
+        category: category,
         stock: Number(stock),
       };
 
@@ -60,8 +80,7 @@ export default function UpdateProductPage() {
       );
       toast.success("Product updated successfully");
       navigate("/admin/products");
-    } catch (error) {
-      console.error("Error updating product:", error);
+    } catch {
       toast.error("An error occurred");
     }
   }
@@ -144,6 +163,7 @@ export default function UpdateProductPage() {
               />
             </label>
 
+<<<<<<< Updated upstream
             {/* Images */}
             {/* <label className="flex flex-col gap-1.5 md:col-span-2">
 							<span className="text-sm font-medium text-secondary">Images</span>
@@ -161,19 +181,25 @@ export default function UpdateProductPage() {
 						</label> */}
 
             {/* Images (URLs) */}
+=======
+>>>>>>> Stashed changes
             <label className="flex flex-col gap-1.5 md:col-span-2">
-              <span className="text-sm font-medium text-secondary">
-                Image URLs
-              </span>
-
-              <textarea
-                className="min-h-[100px] rounded-xl border border-secondary/20 bg-white px-3 py-2 text-secondary placeholder:text-secondary/40 outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
-                value={images}
+              <span className="text-sm font-medium text-secondary">Images</span>
+              <input
+                type="file"
                 onChange={(e) => {
-                  setImages(e.target.value);
+                  setImages(e.target.files);
                 }}
-                placeholder="Paste image URLs here (one per line or comma separated)"
+                multiple
+                className="block w-full cursor-pointer rounded-xl border border-secondary/20 bg-white file:mr-4 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-secondary file:font-medium hover:file:bg-accent/20 transition"
               />
+<<<<<<< Updated upstream
+=======
+              <span className="text-xs text-secondary/60">
+                PNG/JPG recommended. Multiple files supported.
+              </span>
+            </label>
+>>>>>>> Stashed changes
 
 
             </label>
@@ -214,9 +240,7 @@ export default function UpdateProductPage() {
               </span>
               <select
                 value={category}
-                onChange={(e) => {
-                  setCategory(e.target.value);
-                }}
+                onChange={(e) => setCategory(e.target.value)}
                 className="h-11 rounded-xl border border-secondary/20 bg-white px-3 text-secondary outline-none focus:border-accent focus:ring-4 focus:ring-accent/20 transition"
               >
                 <option value="haircare">Haircare</option>
@@ -225,6 +249,8 @@ export default function UpdateProductPage() {
                 <option value="jewellery">Jewellery</option>
                 <option value="perfumes">Perfumes</option>
                 <option value="accessories">Accessories</option>
+                <option value="looksmaxxing">LooksMaxxing</option>
+                <option value="combopack">Combo Pack</option>
               </select>
             </label>
 

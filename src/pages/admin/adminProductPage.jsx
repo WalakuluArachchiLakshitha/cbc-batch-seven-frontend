@@ -29,6 +29,7 @@ function ProductDeleteConfirm(props) {
 			})
 	}
 
+<<<<<<< Updated upstream
 	return (<div className="fixed left-0 top-0 w-full h-screen bg-[#00000050] z-[100] flex justify-center items-center">
 		<div className="w-[500px] h-[200px] bg-primary relative flex flex-col justify-center items-center gap-[40px]">
 			<button onClick={close} className="absolute right-[-42px] top-[-42px] w-[40px] h-[40px] bg-red-600 rounded-full text-white flex justify-center items-center font-bold border border-red-600 hover:bg-white hover:text-red-600">
@@ -46,6 +47,38 @@ function ProductDeleteConfirm(props) {
 
 		</div>
 	</div>)
+=======
+  return (
+    <div className="fixed left-0 top-0 w-full h-screen bg-[#00000050] z-[100] flex justify-center items-center">
+      <div className="w-[500px] h-[200px] bg-primary relative flex flex-col justify-center items-center gap-[40px]">
+        <button
+          onClick={close}
+          className="absolute right-[-42px] top-[-42px] w-[40px] h-[40px] bg-red-600 rounded-full text-white flex justify-center items-center font-bold border border-red-600 hover:bg-white hover:text-red-600"
+        >
+          X
+        </button>
+        <p className="text-xl font-semibold pl-7">
+          Are you sure you want to delete the product with product ID :{" "}
+          {productID}?
+        </p>
+        <div className="flex gap-[40px]">
+          <button
+            onClick={close}
+            className="w-[100px] bg-blue-600 p-[5px] text-white hover:bg-accent"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={deleteProduct}
+            className="w-[100px] bg-red-600 p-[5px] text-white hover:bg-accent"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+>>>>>>> Stashed changes
 }
 
 export default function AdminProductPage() {
